@@ -31,5 +31,6 @@
   "devDependencies": {
 
   },
-  "bundleDependencies": []
+  "bundleDependencies": [],
+  "main": "./bin/www"
 }
