@@ -8,7 +8,6 @@ var app = require('../app');
 var debug = require('debug')('clearfortakeoff-git:server');
 var http = require('http');
 var mysql = require('mysql');
-var sensetive = require('./sensetive');
 
 /**
  * Get port from environment and store in Express.
@@ -16,6 +15,10 @@ var sensetive = require('./sensetive');
 
 app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('ip', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
+
+/*
+ * Connect to mysql database
+ */
 
 // app.set('mysqlHost', process.env.OPENSHIFT_MYSQL_DB_HOST || '127.0.0.1');
 // app.set('mysqlPort', process.env.OPENSHIFT_MYSQL_DB_PORT || 3306);
@@ -42,10 +45,6 @@ app.set('ip', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
 var server = http.createServer(app).listen(app.get('port'), app.get('ip'), function () {
     debug('Listening ' + app.get('ip') + ' on port ' + app.get('port'));
 });
-
-/*
- * Connect to mysql database
- */
 
 // /**
 //  * Listen on provided port, on all network interfaces.
