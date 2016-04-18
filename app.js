@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var metar-test = require('./routes/metar-test');
+var metarTest = require('./routes/metar-test');
 
 var app = express();
 
@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/metar-test', metar-test);
+app.use('/metar-test', metarTest);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
