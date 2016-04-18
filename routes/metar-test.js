@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var metar = require('./../service/metarParser');
 
 
 router.get('/', function(req, res, next) {
