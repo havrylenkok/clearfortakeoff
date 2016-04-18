@@ -13,8 +13,4 @@ var parseMetar = function (airport) {
     return contents.getBody();
 };
 
-
-var METAR = parseMetar('UKKK');
-console.log("BEFORE EXPORT: " + METAR);
-
-module.exports = METAR;
+module.exports = parseMetar;
