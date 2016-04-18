@@ -17,13 +17,14 @@ var parseMetar = function (airport) {
         contents.emit('update');
     });
     contents.on('update', function () {
-        console.log(contents);
+        console.log(contents.data);
     });
-
+    
     return contents.data;
 };
 
 
 var METAR = parseMetar('UKKK');
+console.log("BEFORE EXPORT: " + METAR);
 
 module.exports = METAR;

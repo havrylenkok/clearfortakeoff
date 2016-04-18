@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // console.log("REMOTE IN INDEXJS: " + weather.getContents());
+  console.log("REMOTE IN INDEXJS: " + metar);
   res.render('index', { title: 'Clear for take off', weather: metar });
 });
 
