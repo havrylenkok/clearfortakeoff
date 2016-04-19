@@ -14,7 +14,6 @@
     "name": "Kyrylo Havrylenko",
     "email": "havrylenko.k@gmail.com"
   },
-
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -25,15 +24,17 @@
     "debug": "~2.2.0",
     "express": "~4.13.1",
     "jade": "~1.11.0",
+    "jquery": "^2.2.3",
+    "jsdom": "^3.1.2",
+    "metar": "~0.3.0",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0",
     "mysql": "~2.10.2",
-    "cheerio": "~1.1.13",
-    "metar": "~0.3.0"
-  },
-  "devDependencies": {
+    "serve-favicon": "~2.3.0",
+    "sync-request": "3.0.0",
+    "metar-js": "0.0.3"
 
   },
+  "devDependencies": {},
   "bundleDependencies": [],
   "main": "./bin/www"
 }
