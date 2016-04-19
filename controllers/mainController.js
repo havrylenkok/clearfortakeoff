@@ -4,6 +4,6 @@
  * */
 
 exports.home = function(req, res, next) {
-    res.render('index', {title: 'Clear for take off'});
+    res.render('index');
     next();
 };
