@@ -9,6 +9,12 @@ var window = document.defaultView;
 var $ = require('jquery')(window);
 var metarjs = require('metar-js');
 
+var parseMetar = function (airport) {
+    
+    //console.log(humanifyMetar(getMetar(airport))[0]);
+    return humanifyMetar(getMetar(airport)[0]);
+};
+
 var getMetar = function (airport) {
     
     var adress1 = "http://www.aviationweather.gov/adds/metars/?station_ids=";
@@ -22,14 +28,9 @@ var getMetar = function (airport) {
     var meteoData = $(html).find("font");
     var metar = $(meteoData.get(0)).text();
     var taf = $(meteoData.get(1)).text();
-
-    var tafParsed = taf.split('\n');
-
     
-
-    console.log(metarToJson(metar));
-    console.log(metarToJson(taf));
     
+    return {metar: metar, taf:  taf};
     
     // TODO: get metar + taf, split it by \n
     // TODO: у каждого рядка taf заменить идентификаторы времени на код аэропорта, для корректной работы. Забирать
@@ -38,7 +39,37 @@ var getMetar = function (airport) {
 
 
     // TODO: don't forget to put here right var, not the pure text, but array of metars
-    return metar +  " --- " + tafParsed;
+};
+
+var humanifyMetar = function (data) {
+    
+    var tafParsed = data.taf.split('\n');
+
+    tafParsed[0] = tafParsed[0].slice(3);
+
+    var time = tafParsed[0].match(/\d+Z/);
+    tafParsed[1] = tafParsed[1].replace(/\w+\b/, airport + " " + time);
+    
+    var result = [];
+    
+    result[0] = metarToJson(data.metar);
+    result[1] = metarToJson(tafParsed[0]);
+    result[2] = metarToJson(tafParsed[1]);
+    
+    console.log("Metar: \n" + data.metar);
+    console.log("Taf: \n" + data.taf);
+
+    console.log("Taf parsed: \n" + tafParsed);
+
+    console.log("Json metar: \n");
+    console.log(metarToJson(data.metar));
+    console.log("Json tafParsed[0] \n");
+    console.log(metarToJson(tafParsed[0]));
+
+    console.log("Json tafParsed[1] \n");
+    console.log(metarToJson(tafParsed[1]));
+    
+    return result;
 };
 
 var metarToJson = function (metar) {
