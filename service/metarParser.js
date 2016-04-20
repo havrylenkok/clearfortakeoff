@@ -12,7 +12,11 @@ var metarjs = require('metar-js');
 var parseMetar = function (airport) {
     
     //console.log(humanifyMetar(getMetar(airport))[0]);
-    return humanifyMetar(getMetar(airport)[0]);
+    var data = humanifyMetar(getMetar(airport));
+    var result = "";
+
+    for(var i=0; i<data.length; i++) result += JSON.stringify(data[i]) + "\n";
+    return result
 };
 
 var getMetar = function (airport) {
@@ -30,15 +34,13 @@ var getMetar = function (airport) {
     var taf = $(meteoData.get(1)).text();
     
     
-    return {metar: metar, taf:  taf};
+    return {metar: metar, taf:  taf, airport : airport};
     
     // TODO: get metar + taf, split it by \n
     // TODO: у каждого рядка taf заменить идентификаторы времени на код аэропорта, для корректной работы. Забирать
     // TODO: из массива только то, что необходимо. При этом будет обычный json с погодой, на основе которой можно выдать
     // TODO: вероятность
 
-
-    // TODO: don't forget to put here right var, not the pure text, but array of metars
 };
 
 var humanifyMetar = function (data) {
@@ -48,7 +50,7 @@ var humanifyMetar = function (data) {
     tafParsed[0] = tafParsed[0].slice(3);
 
     var time = tafParsed[0].match(/\d+Z/);
-    tafParsed[1] = tafParsed[1].replace(/\w+\b/, airport + " " + time);
+    tafParsed[1] = tafParsed[1].replace(/\w+\b/, data.airport + " " + time);
     
     var result = [];
     
@@ -76,4 +78,4 @@ var metarToJson = function (metar) {
     return metarjs.parseMetar(metar);
 };
 
-module.exports = getMetar;
+module.exports = parseMetar;
