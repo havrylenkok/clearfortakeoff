@@ -20,23 +20,24 @@ app.set('ip', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
  * Connect to mysql database
  */
 
-// app.set('mysqlHost', process.env.OPENSHIFT_MYSQL_DB_HOST || '127.0.0.1');
-// app.set('mysqlPort', process.env.OPENSHIFT_MYSQL_DB_PORT || 3306);
-// app.set('mysqlUser', process.env.OPENSHIFT_MYSQL_DB_USERNAME || 'admin');
-// app.set('mysqlPass', process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'password');
-// app.set('mysqlDb', process.env.OPENSHIFT_MYSQL_DB_URL || 'databasename');
-// app.set('mysqlString', 'mysql://' + app.get('mysqlUser') + ':' + app.get('mysqlPass') + '@' + app.get('mysqlHost') + ':' + app.get('mysqlPort') + '/' + app.get('mysqlDb'));
-//
-// var mysqlClient = mysql.createConnection(app.get('mysqlString'));
-// mysqlClient.connect(function (err) {
-//     if (err) {
-//         debug('Database connection error ' + err);
-//         throw err;
-//     } else {
-//         debug('Connected to the mysql database');
-//     }
-// });
-// app.set('mysqlClient', mysqlClient);
+app.set('mysqlHost', process.env.OPENSHIFT_MYSQL_DB_HOST || '127.0.0.1');
+app.set('mysqlPort', process.env.OPENSHIFT_MYSQL_DB_PORT || 3306);
+app.set('mysqlUser', process.env.OPENSHIFT_MYSQL_DB_USERNAME || 'victor');
+app.set('mysqlPass', process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'qwerty');
+app.set('mysqlDb', process.env.OPENSHIFT_MYSQL_DB_URL || 'ClearForTakeoff');
+app.set('mysqlString', 'mysql://' + app.get('mysqlUser') + ':' + app.get('mysqlPass') + '@' + app.get('mysqlHost') + ':' + app.get('mysqlPort') + '/' + app.get('mysqlDb'));
+
+var mysqlClient = mysql.createConnection(app.get('mysqlString'));
+
+mysqlClient.connect(function (err) {
+    if (err) {
+        console.log('Database connection error ' + err);
+        throw err;
+    } else {
+        console.log('Connected to the mysql database');
+    }
+});
+app.set('mysqlClient', mysqlClient);
 
 /**
  * Create HTTP server.
