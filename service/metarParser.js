@@ -125,7 +125,7 @@ var humanifyMetar = function (data) {
     // console.log("humanify result: " + result[j-1]);
     // console.log(result[j-1]);
     return {
-        edge: null
+        edge: null,
         result: result[j-1]
     };
 
