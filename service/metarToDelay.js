@@ -40,6 +40,12 @@ var countProbability = function (jsMetar
         }
 
         // TODO: clouds
+        if(jsMetar.clouds != null) {
+            if(!jsMetar.clouds.code.match(/BKN/) && !jsMetar.clouds.code.match(/OVC/)) {
+                probabilityOfDelay += 5;
+                delayInMins += 10;
+            }
+        }
 
         // TODO: rvr (only when visibility is bad)
 
