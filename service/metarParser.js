@@ -15,7 +15,7 @@ var parseMetar = function (airport, hoursFromNow) {
     var data = humanifyMetar(getMetar(airport, hoursFromNow));
     console.log("MY DATA: ");
     console.log(data);
-    if(data  == null) {
+    if(data.result  == null) {
         return null;
     }
     else {
@@ -83,6 +83,7 @@ var humanifyMetar = function (data) {
         result[0] = metarToJs(data.metar);
     } else {
         result[0] = metarToJs(tafParsed[0]);
+        console.log(result[0]);
         for (var i = 1; i < tafParsed.length; i++) {
             if (tafParsed[i].match(/FM/)) {
                 time = tafParsed[i].match(/FM ?[\d]+/);

@@ -5,6 +5,14 @@
 var countProbability = function (jsMetar
                                  // , baseDelay
 ) {
+    var edges = jsMetar.edge;
+    if (edges != null) {
+        if (edges == 'good') return {probability: 1, delay: 5};
+        if (edges == 'bad') return {probability: 100, delay: 720};
+    }
+
+    jsMetar = jsMetar.result;
+
     var delayInMins = 0
     // + baseDelay;
         ;
