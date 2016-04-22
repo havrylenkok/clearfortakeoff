@@ -24,6 +24,28 @@ var testConnection = function(callback) {
 };
 
 
-module.exports = {testConnection : testConnection};
+var getIcaoOrIata = function(data, callback) {
+    
+    if(!data || !/^[A-Z]{3,4}$/.test(data)) {
+        callback("Wrong params", null);
+        return;
+    }
+    var values, query;
+    if(data.length == 4) {query = "SELECT iata FROM airport WHERE icao = ?"}
+    else if(data.length == 3) {query = "SELECT icao FROM airport WHERE iata = ?"}
+    
+    pool.query({sql: query, values:data}, function (err, rows) {
+        if(err) {
+            console.log("Catch error: " + err);
+            callback(err, null);
+        }
+        else {
+            console.log("Successfully connected : " + JSON.stringify(rows));
+            callback(null, rows[0]);
+        }
+    })
+}
+
+module.exports = {testConnection: testConnection, getIcaoOrIata : getIcaoOrIata};
 
 
