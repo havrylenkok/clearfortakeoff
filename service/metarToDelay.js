@@ -23,14 +23,18 @@ var countProbability = function (jsMetar
     // TODO: wind ghost
 
     // TODO: visibility
-    if (jsMetar.visibility < 800) {
+    if (jsMetar.visibility > 800) {
         probabilityOfDelay += 20;
         delayInMins += 25;
     }
 
     // TODO: clouds
 
-    // TODO: administrative factor (as such like airport closed, etc)
+    // TODO: rvr (only when visibility is bad)
+
+    // TODO: weather (wind, right?)
+
+
 
 
     return {probability: probabilityOfDelay, delay: delayInMins};
