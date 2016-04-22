@@ -4,35 +4,76 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='/js/jquery.min.js')
+    script(src='/js/color-animate.min.js')
     script(src='/js/js.js')
   body
     block content
 
-      .menu
-        .menuItems Main page
-        .menuItems Punctuality top
-        .menuItems Calculate
+      .menu.gradient
       .form
         .form-col.airportFrom
           .form_title.airportFrom_title AIRPORT FROM
           span.airplaneTo
-          input.form_input
+          input.form_input.airportFrom_input(placeholder='...source airport')
         .form-col.flightNumber
           .form_title.flightNumber_title FLIGHT NUMBER
-          input.form_input.flightNumber_input
+          input.form_input.flightNumber_input(placeholder='...flight number...')
         .form-col.airportTo
           .form_title.airportTo_title AIRPORT TO
           span.airplaneFrom
-          input.form_input.airportTo_input
+          input.form_input.airportTo_input(placeholder='destination airport...')
+      .btn.btn-xs.gradient.calculate_button CALCULATE
+      .calculate_block
       .main_block
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
+        table
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
       .footer
