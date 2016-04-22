@@ -19,6 +19,10 @@ $(document).ready(function () {
                 }
             }
             $('.calculate_block').slideUp()
+            $('.btn')
+                .css({
+                    borderRadius: '0 0 50% 50%'
+                })
         });
     });
     $('.airportTo_input').each(function () {
@@ -38,6 +42,10 @@ $(document).ready(function () {
                 }
             }
             $('.calculate_block').slideUp()
+            $('.btn')
+                .css({
+                    borderRadius: '0 0 50% 50%'
+                })
         });
     });
 
@@ -56,6 +64,10 @@ $(document).ready(function () {
                 $('.airportFrom_input').prop('disabled', false);
             }
             $('.calculate_block').slideUp()
+            $('.btn')
+                .css({
+                    borderRadius: '0 0 50% 50%'
+                })
         });
     });
 

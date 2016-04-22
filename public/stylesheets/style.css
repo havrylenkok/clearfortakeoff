@@ -203,9 +203,11 @@ tr:nth-child(2n) td:nth-child(even) /*<!-- РїР°СЂРЅС‹Рµ СЂСЏР�
 .gradient {
     background-color: #ff6565;
 }
-.gradientBorder{
+
+.gradientBorder {
     border-color: #ff6565;
 }
+
 .calculate-infrormation {
     padding-top: 2%;
     padding-left: 2%;
@@ -330,12 +332,14 @@ tr:nth-child(2n) td:nth-child(even) /*<!-- РїР°СЂРЅС‹Рµ СЂСЏР�
 .sum_time {
     font-size: 11pt;
 }
-.airport_name{
+
+.airport_name {
     display: inline-block;
     font-size: 15pt;
 
 }
-.airport_name_line{
+
+.airport_name_line {
     display: inline-block;
     height: 8px;
     /*border-top: 1px solid black;*/
@@ -343,13 +347,45 @@ tr:nth-child(2n) td:nth-child(even) /*<!-- РїР°СЂРЅС‹Рµ СЂСЏР�
     margin-right: 3px;
     width: 78px;
 }
-.delay_probability_time{
+
+.delay_probability_time {
     font-size: 13pt;
     line-height: 1px;
 }
-.first_airport{
+
+.first_airport {
     float: left;
 }
-.third_airport{
+
+.third_airport {
     float: right;
+}
+
+@media screen and (min-width: 321px) {
+    .form {
+        width: 96%;
+        margin: 2% 2%;
+    }
+
+    table {
+        width: 96%;
+        margin: 2% 2%;
+    }
+
+    .calculate_block {
+        width: 96%;
+        margin: 2% 2%;
+    }
+
+    .form{
+        height: 195px;
+    }
+
+    .calculate_button{
+        margin: 2% 2%;
+    }
+
+    .btn{
+        width: 94%;
+    }
 }
