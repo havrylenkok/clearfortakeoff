@@ -5,6 +5,14 @@
 var countProbability = function (jsMetar
                                  // , baseDelay
 ) {
+    var edges = jsMetar.edge;
+    if (edges != null) {
+        if (edges == 'good') return {probability: 1, delay: 5};
+        if (edges == 'bad') return {probability: 100, delay: 720};
+    }
+
+    jsMetar = jsMetar.result;
+
     var delayInMins = 0
     // + baseDelay;
         ;
@@ -30,8 +38,6 @@ var countProbability = function (jsMetar
                 probabilityOfDelay += 5;
             }
 
-            // TODO: wind ghost
-
         }
         // TODO: visibility
         if (jsMetar.visibility < 200) {
@@ -40,11 +46,18 @@ var countProbability = function (jsMetar
         }
 
         // TODO: clouds
+        if(jsMetar.clouds != null && jsMetar.clouds.code !== undefined) {
+
+            if(!jsMetar.clouds.code.match(/BKN/) && !jsMetar.clouds.code.match(/OVC/)) {
+                probabilityOfDelay += 5;
+                delayInMins += 10;
+            }
+        }
 
         // TODO: rvr (only when visibility is bad)
 
         // TODO: weather (wind, right?)
-        if (jsMetar.weather != null) {
+        if (jsMetar.weather != null && jsMetar.weather.descriptor !== undefined) {
             descriptor = jsMetar.weather.descriptor;
             if (descriptor.match(/FZ/) || descriptor.match(/SHSN/) || descriptor.match(/PE/)) {
                 probabilityOfDelay += 50;

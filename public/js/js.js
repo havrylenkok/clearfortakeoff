@@ -104,4 +104,23 @@ $(document).ready(function () {
         }
     }
 
+
+
+    if(geoPosition.init()){  // Geolocation Initialisation
+        geoPosition.getCurrentPosition(success_callback,error_callback,{enableHighAccuracy:true});
+    }else{
+        // You cannot use Geolocation in this device
+    }
+    geoPositionSimulator.init();
+
+    // p : geolocation object
+    function success_callback(p){
+$('.x').html(p.coords.latitude)
+        $('.y').html(p.coords.longitude)
+    }
+
+    function error_callback(p){
+        // p.message : error message
+    }
+
 });

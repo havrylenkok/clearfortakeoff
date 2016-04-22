@@ -14,7 +14,7 @@ exports.main = function(req, res, next) {
     var probability = prob(metarobj, 0);
     // console.log(metarobj.wind.speed);
     console.log("PROBABILITY: "); console.log(probability);
-    var fakeView = metarApi('UKKK', 0, 'KJFK', 10);
+    var fakeView = metarApi('UKKK', 0, 'UUDD', 10);
     
 
 
