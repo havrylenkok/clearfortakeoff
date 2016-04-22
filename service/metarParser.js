@@ -12,9 +12,15 @@ var metarjs = require('metar-js');
 var parseMetar = function (airport, hoursFromNow) {
 
     //console.log(humanifyMetar(getMetar(airport))[0]);
-    var data;
-    if((data = humanifyMetar(getMetar(airport, hoursFromNow)) == null)) return null;
-    else return data;
+    var data = humanifyMetar(getMetar(airport, hoursFromNow));
+    console.log("MY DATA: ");
+    console.log(data);
+    if(data.result  == null) {
+        return null;
+    }
+    else {
+        return data;
+    }
     
     // var result = "";
 
@@ -24,6 +30,7 @@ var parseMetar = function (airport, hoursFromNow) {
 };
 
 var getMetar = function (airport, hoursFromNow) {
+    // console.log(airport);
     var result = true;
 
     var adress1 = "http://www.aviationweather.gov/adds/metars/?station_ids=";
@@ -37,15 +44,23 @@ var getMetar = function (airport, hoursFromNow) {
     var meteoData = $(html).find("font");
     var metar = $(meteoData.get(0)).text();
     var taf = $(meteoData.get(1)).text();
-    if(!metar) result = false;
+    console.log("CHECKED METAR: " + metar);
+    if(metar == null || metar == undefined) result = false;
 
 
-    return {result: result, metar: metar, taf: taf, airport: airport, hours: hoursFromNow};
+
+    return { edge: null, metar: metar, taf: taf, airport: airport, hours: hoursFromNow, result: result};
 
 };
 
 var humanifyMetar = function (data) {
     if(data.result == false) return null;
+
+    if(data.metar.match(/SNOCLO/)) return { edge: 'bad', result: metarToJs(data.metar) };
+    if(data.metar.match(/CAVOK/)) return { edge: 'good', result: metarToJs(data.metar) };
+    console.log("HUMANIFY START: " + data.metar + " " + data.taf);
+
+    // TODO: SOMEWHERE HERE IT'S DELETES 3 SYMBOLS OF ICAO CODE 'KJFK' -> 'K', SO WE HAVE NULL!!!!!!!!!!
 
     var curTime = new Date().getHours();
     var neededTime = curTime + data.hoursFromNow;
@@ -53,7 +68,7 @@ var humanifyMetar = function (data) {
 
     // delete TAF
     tafParsed[0] = tafParsed[0].slice(3);
-    // console.log(tafParsed);
+    console.log(tafParsed);
 
     var issueTime = tafParsed[0].match(/\d+Z/);
     var firstSymbols = data.airport + " " + issueTime;
@@ -68,8 +83,13 @@ var humanifyMetar = function (data) {
 
     if (data.hoursFromNow < 2) {
         result[0] = metarToJs(data.metar);
+        console.log(result[0]);
     } else {
+
+        console.log("TAFPARSED0:")
+        console.log(tafParsed[0]);
         result[0] = metarToJs(tafParsed[0]);
+        console.log(result[0]);
         for (var i = 1; i < tafParsed.length; i++) {
             if (tafParsed[i].match(/FM/)) {
                 time = tafParsed[i].match(/FM ?[\d]+/);
@@ -103,12 +123,18 @@ var humanifyMetar = function (data) {
         }
 
     }
-
-    // console.log(metarToJs('METAR KBLV 011657Z AUTO 25015G30KT 210V290 3/8SM R32L/1000FT FG BKN005 01/M01' +
-        // ' A2984 RMK A02 SLP034'));
+    console.log("RESULT HUMANIFY: ");
+    console.log(result);
+    console.log("RESULT HUMANIFY j-1: " );
+    console.log(result[j - 1]);
+    // console.log("HEY HO");
+    // console.log(metarToJs('METAR KBLV 011657Z AUTO 25015G30KT 210V290 3/8SM R32L/1000FT +FZRA BKN005'));
     // console.log("humanify result: " + result[j-1]);
-    console.log(result[j-1]);
-    return result[j-1];
+    // console.log(result[j-1]);
+    return {
+        edge: null,
+        result: result[j-1]
+    };
 
 
 // result[0] = metarToJs(data.metar);
@@ -129,7 +155,7 @@ var humanifyMetar = function (data) {
     // console.log(metarToJs(tafParsed[1]));
 
     // return result;
-}
+};
 
 
 var metarToJs = function (metar) {
