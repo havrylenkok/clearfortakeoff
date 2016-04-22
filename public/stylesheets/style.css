@@ -1,8 +1,107 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #eaeaea;
+  margin: 0;
+}
+.menu {
+  background-color: #fec107;
+  height: 50px;
+  padding-top: 15px;
+  padding-left: 20px;
 }
 
-a {
-  color: #00B7FF;
+.menuItems {
+  display: inline-block;
+  float: left;
+  margin-right: 2%;
+  font-size: 25px;
+  color: #3c3c3c;
+  height: 100%;
+}
+
+.form {
+  height: 150px;
+  background-color: #ffffff;
+  width: 96%;
+  margin: 2%;
+}
+
+.form-col {
+  width: 33.33333%;
+  height: 100%;
+  display: inline-block;
+  float: left;
+}
+
+.airportFrom {
+}
+
+.flightNumber {
+}
+
+.airportTo {
+}
+
+.form_title {
+  color: #3c3c3c;
+  text-align: center;
+  height: 50%;
+  font-size: 25px;
+  vertical-align: middle;
+  line-height: 350%;
+}
+
+.airplaneTo {
+  width: 20%;
+  background-image: url("../img/airplaneTo.png");
+  background-size: 45%;
+  height: 50%;
+  background-repeat: no-repeat;
+  display: inline-block;
+  background-position: 50%;
+}
+
+.airplaneFrom {
+  background-image: url("../img/airplaneFrom.png");
+  width: 20%;
+  background-size: 45%;
+  height: 50%;
+  background-repeat: no-repeat;
+  display: inline-block;
+  background-position: 50%;
+}
+
+.form_input {
+  width: 75%;
+  height: 49%;
+  outline: none;
+  border: none;
+  background-color: #f5f5f5;
+  float: right;
+  font-size: 25px;
+  padding-left: 5%;
+}
+
+.flightNumber_input {
+  width: 100%;
+  background-color: white;
+}
+
+.airportTo_input {
+  float: left;
+}
+.footer{
+  background-color: white;
+  height: 100px;
+  top: 50px;
+  clear: both;
+  position: relative;
+}
+.blocks{
+  width: 20%;
+  display: inline-block;
+  float: left;
+  background-color: #f5f5f5;
+}
+.blocks:nth-child(2n) {
+  background-color: white;
 }

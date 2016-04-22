@@ -1,5 +1,38 @@
-extends layout
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/js/jquery.min.js')
+    script(src='/js/js.js')
+  body
+    block content
 
-block content
-  h1= title
-  p We welcome you to our humble #{title}
+      .menu
+        .menuItems Main page
+        .menuItems Punctuality top
+        .menuItems Calculate
+      .form
+        .form-col.airportFrom
+          .form_title.airportFrom_title AIRPORT FROM
+          span.airplaneTo
+          input.form_input
+        .form-col.flightNumber
+          .form_title.flightNumber_title FLIGHT NUMBER
+          input.form_input.flightNumber_input
+        .form-col.airportTo
+          .form_title.airportTo_title AIRPORT TO
+          span.airplaneFrom
+          input.form_input.airportTo_input
+      .main_block
+        .blocks
+        .blocks
+        .blocks
+        .blocks
+        .blocks
+        .blocks
+        .blocks
+        .blocks
+        .blocks
+        .blocks
+      .footer
