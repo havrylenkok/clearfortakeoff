@@ -130,26 +130,6 @@ tr:nth-child(2n) td:nth-child(even) /*<!-- РїР°СЂРЅС‹Рµ СЂСЏР�
     background: white;
 }
 
-/*/!*::-webkit-input-placeholder {*!/*/
-/*/!*color: #fac107;*!/*/
-/*/!*opacity: 0.5;*!/*/
-/*/!*}*!/*/
-
-/*:-moz-placeholder {*/
-/*/!* Firefox 18- *!/*/
-/*color: #fac107;*/
-
-/*}*/
-
-/*::-moz-placeholder {*/
-/*/!* Firefox 19+ *!/*/
-/*color: #fac107;*/
-/*}*/
-
-/*:-ms-input-placeholder {*/
-/*color: #fac107;*/
-/*}*/
-
 .flightNumber_input {
     text-align: center;
     padding: 0;
@@ -361,7 +341,18 @@ tr:nth-child(2n) td:nth-child(even) /*<!-- РїР°СЂРЅС‹Рµ СЂСЏР�
     float: right;
 }
 
-@media screen and (max-width: 321px) {
+.airportFrom_title, .airportTo_title{
+    background-image: url("../img/loca.png");
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: 5% 55%;
+    cursor: pointer;
+}
+.airportTo_title{
+    background-position: 95% 55%;
+}
+
+@media only screen and (max-device-width: 480px) {
     .form {
         width: 96%;
         margin: 2% 2%;
