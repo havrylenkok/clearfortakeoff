@@ -1,23 +1,21 @@
 doctype html
 html
-    head
-        title= title
-        link(rel='stylesheet', href='/stylesheets/test.css')
-    body
-        block content
-            h1= title
-            p We welcome you to our humble #{title}
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/test.css')
+  body
+    block content
+      h1= title
+      p We welcome you to our humble #{title}
+      h1= "Json metar"
+      div #{jsonmetar}
+      h1= "Pure metar"
+      div #{pureMetar.metar}
+      div #{pureMetar.taf}
+      h1= "Probability and delay"
+      div #{prob.probability}
+      div #{prob.delay}
+      h3= "DB"
+      div #{"Host: " + host + " Port: " + port + " Name: " + name + " Pass: " + pass + " Url: " + url}
 
-h1= "Json metar"
-div #{jsonmetar}
-h1= "Pure metar"
-div #{pureMetar.metar}
-div #{pureMetar.taf}
-h1= "Probability and delay"
-div #{prob.probability}
-div #{prob.delay}
-h3= "DB"
-div #{"Host: " + host + " Port: " + port + " Name: " + name + " Pass: " + pass + " Url: " + url}
-div #{db}
-div #{weather}
 
