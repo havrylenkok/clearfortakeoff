@@ -9,7 +9,7 @@ var countProbability = function (jsMetar
         // + baseDelay;
     ;
     var probabilityOfDelay = 0;
-    if (baseDelay > 30) probabilityOfDelay += 50;
+    // if (baseDelay > 30) probabilityOfDelay += 50;
 
     // TODO: wind course. Compare to route course?
 
