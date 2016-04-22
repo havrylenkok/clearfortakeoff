@@ -12,7 +12,16 @@ var metarjs = require('metar-js');
 var parseMetar = function (airport, hoursFromNow) {
 
     //console.log(humanifyMetar(getMetar(airport))[0]);
-    return data = humanifyMetar(getMetar(airport, hoursFromNow));
+    var data = humanifyMetar(getMetar(airport, hoursFromNow));
+    console.log("MY DATA: ");
+    console.log(data);
+    if(data  == null) {
+        return null;
+    }
+    else {
+        return data;
+    }
+    
     // var result = "";
 
     // for (var i = 0; i < data.length; i++) result += JSON.stringify(data[i]) + "\n";
@@ -21,6 +30,8 @@ var parseMetar = function (airport, hoursFromNow) {
 };
 
 var getMetar = function (airport, hoursFromNow) {
+    // console.log(airport);
+    var result = true;
 
     var adress1 = "http://www.aviationweather.gov/adds/metars/?station_ids=";
     var adress2 = "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit";
@@ -33,13 +44,17 @@ var getMetar = function (airport, hoursFromNow) {
     var meteoData = $(html).find("font");
     var metar = $(meteoData.get(0)).text();
     var taf = $(meteoData.get(1)).text();
+    console.log("CHECKED METAR: " + metar);
+    if(metar == null || metar == undefined) result = false;
 
 
-    return {metar: metar, taf: taf, airport: airport, hours: hoursFromNow};
+    return { metar: metar, taf: taf, airport: airport, hours: hoursFromNow, result: result};
 
 };
 
 var humanifyMetar = function (data) {
+    if(data.result == false) return null;
+    console.log("HUMANIFY START: " + data.metar + " " + data.taf);
 
     var curTime = new Date().getHours();
     var neededTime = curTime + data.hoursFromNow;
@@ -97,11 +112,14 @@ var humanifyMetar = function (data) {
         }
 
     }
-
-    // console.log(metarToJs('METAR KBLV 011657Z AUTO 25015G30KT 210V290 3/8SM R32L/1000FT FG BKN005 01/M01' +
-        // ' A2984 RMK A02 SLP034'));
+    console.log("RESULT HUMANIFY: ");
+    console.log(result);
+    console.log("RESULT HUMANIFY j-1: " );
+    console.log(result[j - 1]);
+    // console.log("HEY HO");
+    // console.log(metarToJs('METAR KBLV 011657Z AUTO 25015G30KT 210V290 3/8SM R32L/1000FT +FZRA BKN005'));
     // console.log("humanify result: " + result[j-1]);
-    console.log(result[j-1]);
+    // console.log(result[j-1]);
     return result[j-1];
 
 
@@ -123,7 +141,7 @@ var humanifyMetar = function (data) {
     // console.log(metarToJs(tafParsed[1]));
 
     // return result;
-}
+};
 
 
 var metarToJs = function (metar) {

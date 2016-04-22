@@ -3,36 +3,105 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Open+Sans')
     script(src='/js/jquery.min.js')
+    script(src='/js/color-animate.min.js')
     script(src='/js/js.js')
   body
     block content
-
-      .menu
-        .menuItems Main page
-        .menuItems Punctuality top
-        .menuItems Calculate
+      .menu.gradient
+        .logo
+          .logo-text
       .form
         .form-col.airportFrom
           .form_title.airportFrom_title AIRPORT FROM
           span.airplaneTo
-          input.form_input
+          input.form_input.airportFrom_input(placeholder='...source airport')
         .form-col.flightNumber
           .form_title.flightNumber_title FLIGHT NUMBER
-          input.form_input.flightNumber_input
+          input.form_input.flightNumber_input(placeholder='...flight number...')
         .form-col.airportTo
           .form_title.airportTo_title AIRPORT TO
           span.airplaneFrom
-          input.form_input.airportTo_input
+          input.form_input.airportTo_input(placeholder='destination airport...')
+      .btn.btn-xs.gradient.calculate_button CALCULATE
+      .calculate_block
+        .calculate-infrormation
+          .calculate-infrormation_block
+            .col-md-3.from
+              .departure_time 4:10  #{departure_time}
+              .departure_city Kyiv #{departure_city}
+              .departure_date 22.03.2016, FRI #{departure_date}
+            .col-md-3.way
+
+              .route
+                .sum_time 11h 50m
+                .round.gradient
+                .line.gradientBorder
+                .round.gradient
+                br
+                .airport_name.first_airport KBR
+                .airport_name.second_airport Flight: BA-883
+                .airport_name.third_airport LGW
+            .col-md-3.to
+              .arrival_time 4:10 #{arrival_time}
+              .arrival_city Kyiv #{arrival_city}
+              .arrival_date 22.03.2016, FRI #{arrival_date}
+          .calculate-infrormation_line
+          .calculate-infrormation_block.calculate-infrormation_block_bottom
+            .delay_probability PROBABILITY:
+            .delay_probability_percent 4% #{flight_percent}
+              .delay_probability_time 12h 10m
       .main_block
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
-        .blocks
+        table
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
+          tr
+            td
+            td
+            td
+            td
       .footer
