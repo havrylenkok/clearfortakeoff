@@ -48,12 +48,16 @@ var getMetar = function (airport, hoursFromNow) {
     if(metar == null || metar == undefined) result = false;
 
 
-    return { metar: metar, taf: taf, airport: airport, hours: hoursFromNow, result: result};
+
+    return { edge: null, metar: metar, taf: taf, airport: airport, hours: hoursFromNow, result: result};
 
 };
 
 var humanifyMetar = function (data) {
     if(data.result == false) return null;
+    var edge = null;
+    if(data.metar.match(/SNOCLO/)) return { edge: 'bad', result: metarToJs(data.metar) };
+    if(data.metar.match(/CAVOK/)) return { edge: 'good', result: metarToJs(data.metar) };
     console.log("HUMANIFY START: " + data.metar + " " + data.taf);
 
     var curTime = new Date().getHours();
@@ -120,7 +124,10 @@ var humanifyMetar = function (data) {
     // console.log(metarToJs('METAR KBLV 011657Z AUTO 25015G30KT 210V290 3/8SM R32L/1000FT +FZRA BKN005'));
     // console.log("humanify result: " + result[j-1]);
     // console.log(result[j-1]);
-    return result[j-1];
+    return {
+        edge: null
+        result: result[j-1]
+    };
 
 
 // result[0] = metarToJs(data.metar);

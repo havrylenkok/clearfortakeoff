@@ -30,8 +30,6 @@ var countProbability = function (jsMetar
                 probabilityOfDelay += 5;
             }
 
-            // TODO: wind ghost
-
         }
         // TODO: visibility
         if (jsMetar.visibility < 200) {
