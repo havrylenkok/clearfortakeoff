@@ -8,7 +8,7 @@ var dbconnector = require('./../dbconnector');
 
 
 exports.main = function(req, res, next) {
-    var metarobj = metar.parse('UUDD', 0);
+    var metarobj = metar.parse('UKKG', 0);
     // console.log(metarobj.wind.speed);
 
 
