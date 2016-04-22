@@ -29,5 +29,13 @@ db.getIcaoOrIata('IEV', function (err, data) {
 });
 
 exports.main = function (req, res, next) {
-    res.render('dbtest', {fromdb : "hello"});
+
+    db.getList(function (err, data) {
+        if(err) {
+            console.log('Database error : ' + err);
+        }
+        else {
+            res.render('dbtest', {fromdb : JSON.stringify(data)});
+        }
+    });
 };

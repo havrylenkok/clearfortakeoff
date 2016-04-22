@@ -44,8 +44,25 @@ var getIcaoOrIata = function(data, callback) {
             callback(null, rows[0]);
         }
     })
-}
+};
 
-module.exports = {testConnection: testConnection, getIcaoOrIata : getIcaoOrIata};
+var getList = function(callback) {
+    pool.query('SELECT icao, iata, name, town FROM airport', function (err, rows) {
+        if(err) {
+            console.log("Catch error: " + err);
+            callback(err, null);
+        }
+        else {
+            console.log("Successfully connected");
+            callback(null, rows);
+        }
+    })
+};
+
+module.exports = {
+                  testConnection: testConnection, 
+                  getIcaoOrIata: getIcaoOrIata,
+                  getList : getList
+                 };
 
 
