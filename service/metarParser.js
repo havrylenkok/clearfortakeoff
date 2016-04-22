@@ -55,34 +55,54 @@ var humanifyMetar = function (data) {
     // var timeRangeForecast = tafParsed[0].match(/[\d]+\/+[\d]+/);
     // console.log("TIME: " + timeRangeForecast);
 
-    var result;
+    var result = [];
     var time;
     var range;
+    var j = 1;
 
     if (data.hoursFromNow < 2) {
-        result = metarToJs(data.metar);
+        result[0] = metarToJs(data.metar);
     } else {
-        result = metarToJs(tafParsed[0]);
+        result[0] = metarToJs(tafParsed[0]);
         for (var i = 1; i < tafParsed.length; i++) {
             if (tafParsed[i].match(/FM/)) {
-                time = tafParsed[i].match(/FM [\d]+/);
-                time = time.substring(time.length - 2, time.length);
-                if (time <= neededTime) result = tafToJs(tafParsed[i], firstSymbols);
+                time = tafParsed[i].match(/FM ?[\d]+/);
+                // console.log(tafParsed);
+                // console.log(tafParsed[i]);
+                // console.log(time);
+                // console.log(time[0]);
+                time = time[0];
+                time = time.substring(time.length - 4, time.length - 2);
+                if (time <= neededTime) {
+                    result[j] = compareTaf(result[j - 1], tafToJs(tafParsed[i], firstSymbols));
+                    j++;
+                }
             } else if (tafParsed[i].match(/becmg/) || tafParsed[i].match(/TEMPO/)) {
                 range = timeRange(tafParsed[i]);
-                if (neededTime < range.end && neededTime > range.start) result = tafToJs(tafParsed[i], firstSymbols);
+                if (neededTime < range.end && neededTime > range.start) {
+                    result[j] = compareTaf(result[j - 1], tafToJs(tafParsed[i], firstSymbols));
+                    j++;
+                    break;
+
+                }
             } else if (tafParsed[i].match(/PROB/)) {
                 time = tafParsed[i].match(/PROB\d\d [\d]+/);
                 range = {start: time.substring(9, 11), end: time.substring(time.length - 2, time.length)};
-                if (neededTime < range.end && neededTime > range.start) result = tafToJs(tafParsed[i], firstSymbols);
+                if (neededTime < range.end && neededTime > range.start) {
+                    result[j] = compareTaf(result[j - 1], tafToJs(tafParsed[i], firstSymbols));
+                    j++;
+                    break;
+                }
             }
         }
 
     }
 
-
-    console.log("humanify result: " + result);
-    return result;
+    // console.log(metarToJs('METAR KBLV 011657Z AUTO 25015G30KT 210V290 3/8SM R32L/1000FT FG BKN005 01/M01' +
+        // ' A2984 RMK A02 SLP034'));
+    // console.log("humanify result: " + result[j-1]);
+    console.log(result[j-1]);
+    return result[j-1];
 
 
 // result[0] = metarToJs(data.metar);
@@ -111,13 +131,13 @@ var metarToJs = function (metar) {
 };
 
 var timeRange = function (string) {
-    var time = ''+ string.match(/.+ [\d]+\/[\d]+/);
+    var time = '' + string.match(/.+ [\d]+\/[\d]+/);
     var timeEnd = time.substring(time.length - 2, time.length);
     var timeStart = time.substring(6, 8);
     return {start: timeStart, end: timeEnd};
 };
 
-var tafToJs = function(tafString, firstSymbols) {
+var tafToJs = function (tafString, firstSymbols) {
     tafString = tafString.replace(/\w+\b/, firstSymbols);
     return metarToJs(tafString);
 };
@@ -125,4 +145,13 @@ var tafToJs = function(tafString, firstSymbols) {
 module.exports = {
     parse: parseMetar,
     pureMetar: getMetar
+};
+
+var compareTaf = function (prev, cur) {
+    if (!cur.wind) cur.wind = prev.wind;
+    if (!cur.clouds) cur.clouds = prev.clouds;
+    if (!cur.visibility) cur.visibility = prev.visibility;
+    if (!cur.rvr) cur.rvr = prev.rvr;
+    if (!cur.weather) cur.weather = prev.weather;
+    return cur;
 };
