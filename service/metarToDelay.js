@@ -15,7 +15,7 @@ var countProbability = function (jsMetar
         probabilityOfDelay = 0;
         delayInMins = 0;
     } else {
-
+        console.log("JS METAR: " + jsMetar);
 
         // TODO: wind course. Compare to route course?
 
