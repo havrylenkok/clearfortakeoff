@@ -1,7 +1,6 @@
 body {
     background-color: #eaeaea;
     margin: 0;
-    min-width: 800px;
 }
 
 .menu {
@@ -363,9 +362,6 @@ tr:nth-child(2n) td:nth-child(even) /*<!-- РїР°СЂРЅС‹Рµ СЂСЏР�
 }
 
 @media screen and (max-width: 321px) {
-    body{
-min-width: 0;
-    }
     .form {
         width: 96%;
         margin: 2% 2%;
