@@ -12,7 +12,10 @@ var metarjs = require('metar-js');
 var parseMetar = function (airport, hoursFromNow) {
 
     //console.log(humanifyMetar(getMetar(airport))[0]);
-    return data = humanifyMetar(getMetar(airport, hoursFromNow));
+    var data;
+    if((data = humanifyMetar(getMetar(airport, hoursFromNow)) == null)) return null;
+    else return data;
+    
     // var result = "";
 
     // for (var i = 0; i < data.length; i++) result += JSON.stringify(data[i]) + "\n";
@@ -21,6 +24,7 @@ var parseMetar = function (airport, hoursFromNow) {
 };
 
 var getMetar = function (airport, hoursFromNow) {
+    var result = true;
 
     var adress1 = "http://www.aviationweather.gov/adds/metars/?station_ids=";
     var adress2 = "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit";
@@ -33,13 +37,15 @@ var getMetar = function (airport, hoursFromNow) {
     var meteoData = $(html).find("font");
     var metar = $(meteoData.get(0)).text();
     var taf = $(meteoData.get(1)).text();
+    if(!metar) result = false;
 
 
-    return {metar: metar, taf: taf, airport: airport, hours: hoursFromNow};
+    return {result: result, metar: metar, taf: taf, airport: airport, hours: hoursFromNow};
 
 };
 
 var humanifyMetar = function (data) {
+    if(data.result == false) return null;
 
     var curTime = new Date().getHours();
     var neededTime = curTime + data.hoursFromNow;
