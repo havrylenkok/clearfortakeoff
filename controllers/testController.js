@@ -11,7 +11,6 @@ exports.main = function(req, res, next) {
     var metarobj = metar.parse('UKKG', 0);
     // console.log(metarobj.wind.speed);
 
-    console.log(dbconnector());
 
     res.render('test', {
         title: 'Clear for take off',
