@@ -4,9 +4,7 @@ body {
 }
 
 .menu {
-    height: 50px;
-    padding-top: 15px;
-    padding-left: 20px;
+    height: 100px;
 }
 
 .menuItems {
@@ -17,12 +15,19 @@ body {
     color: #3c3c3c;
     height: 100%;
 }
-
+.logo{
+    background-image: url("../img/plane.png");
+    height: 100%;
+    margin-left: 11%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
 .form {
     height: 150px;
     background-color: #ffffff;
     width: 76%;
     margin: 2% 11%;
+    margin-bottom: 0;
 }
 
 .form-col {
@@ -42,12 +47,13 @@ body {
 }
 
 .form_title {
-    color: #3c3c3c;
+    color:#0d0d0d;
     text-align: center;
     height: 50%;
     font-size: 25px;
     vertical-align: middle;
     line-height: 350%;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .airplaneTo {
@@ -152,22 +158,20 @@ tr:nth-child(2n) td:nth-child(even) /*<!-- РїР°СЂРЅС‹Рµ СЂСЏР�
     text-align: right;
 }
 .btn{
-    border-radius:30px 30px 5px 5px;
-    color:#fff;
+
+    border-radius:0px 0px 50% 50%;
+    color:#0d0d0d;
     text-transform: uppercase;
-    /*transition: all 0.3s ease 0s;*/
     text-decoration: blink;
     height: 50px;
     width: 74%;
-    margin: 2% 11%;
+    margin: 0 11%;
     line-height: 50px;
     padding: 0 1%;
     text-align: center;
 }
 .btn:hover{
-    border-radius:5px 5px 30px 30px;
     cursor: pointer;
-    transition: all 0.3s ease 0s;
 }
 
 @media only screen and (max-width: 767px) {
@@ -180,9 +184,15 @@ tr:nth-child(2n) td:nth-child(even) /*<!-- РїР°СЂРЅС‹Рµ СЂСЏР�
     height: 100px;
     width: 76%;
     margin: 2% 11%;
+    background: white;
+
+}
+.calculate_button{
+margin: 2% 11%;
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .gradient{
-    /*transition: all 3s ease 0s;*/
     background-color: #ff6565;
 }

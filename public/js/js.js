@@ -55,8 +55,16 @@ $(document).ready(function () {
     });
 
     $('.calculate_button').click('on', function () {
-        $('.calculate_block').slideDown()
-            .addClass('calculate_open')
+        $('.calculate_block').slideDown();
+
+        $('.btn')
+        // .css({
+        //    marginTop:'2%'
+        //})
+            .css({
+            borderRadius:'50% 50% 0 0'
+        })
+
     });
 
     if ($('body').width() > 900) {
@@ -65,10 +73,6 @@ $(document).ready(function () {
         }, 3000);
         var length = 8;
         var start = 0;
-
-
-
-
         var color = ['#fb9861','#ffe56c','#b8f576','#96fcb1','#8bfcf5','#7ab5fd','#808fff','#c388fe','#ff748e','#ff6565']
         function gradient() {
             if (start > length) {
