@@ -115,9 +115,8 @@ $(document).ready(function () {
 
     // p : geolocation object
     function success_callback(p){
-
-        console.log(p.coords.latitude)
-        console.log(p.coords.longitude)
+$('.x').html(p.coords.latitude)
+        $('.y').html(p.coords.longitude)
     }
 
     function error_callback(p){
