@@ -37,14 +37,23 @@ var getMetar = function (airport, hoursFromNow) {
     var adress2 = "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit";
 
     var contents = request('GET', adress1 + airport + adress2);
+    // console.log("CONTENTS getMetar: ");
+    // console.log(contents);
     var text = contents.getBody('utf8');
+    // console.log("TEXT: ");
+    // console.log(text);
 
     var html = $.parseHTML(text);
+    // console.log("HTML: ");
+    // console.log(html);
 
     var meteoData = $(html).find("font");
+    // console.log("METEODATA: ");
+    // console.log(meteoData);
     var metar = $(meteoData.get(0)).text();
     var taf = $(meteoData.get(1)).text();
     console.log("CHECKED METAR: " + metar);
+    console.log("CHECKED TAF :" + taf);
     if (metar == null || metar == undefined) result = false;
 
 
@@ -59,14 +68,12 @@ var humanifyMetar = function (data) {
         if (data.metar.match(/CAVOK/)) return {edge: 'good', result: metarToJs(data.metar)};
         console.log("HUMANIFY START: " + data.metar + " " + data.taf);
 
-        // TODO: SOMEWHERE HERE IT'S DELETES 3 SYMBOLS OF ICAO CODE 'KJFK' -> 'K', SO WE HAVE NULL!!!!!!!!!!
-
         var curTime = new Date().getHours();
         var neededTime = curTime + data.hoursFromNow;
         var tafParsed = data.taf.split('\n');
 
         // delete TAF
-        tafParsed[0] = tafParsed[0].slice(3);
+        if(tafParsed[0].match(/TAF/)) tafParsed[0] = tafParsed[0].slice(3);
         console.log(tafParsed);
 
         var issueTime = tafParsed[0].match(/\d+Z/);
