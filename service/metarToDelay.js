@@ -8,7 +8,7 @@
  * @param type 0 - departure, 1 - arrival
  * @param ils ILS category of airport
  */
-var countProbability = function (jsMetar, type, ils)
+var countProbability = function (jsMetar, type, ils, course)
 // , baseDelay)
 {
     var edges = jsMetar.edge;
