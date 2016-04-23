@@ -15,7 +15,7 @@ exports.main = function(req, res, next) {
     //
     //var request = require("request")
     //
-    var url = "https://transit.navitime.com/en/flight/schedule/result?depCity=&depAirport=KBP&arvCity=&arvAirport=LHR&date=2016-04-23T00%3A00%3A00"
+    var url = "https://transit.navitime.com/en/flight/schedule/result?depCity=&depAirport=SVO&arvCity=&arvAirport=HKG&date=2016-04-24T00%3A00%3A00"
     //
     //request({
     //    url: url,
@@ -34,11 +34,15 @@ exports.main = function(req, res, next) {
     var $ = require('jquery')(window);
 
     request(url, function(error, response, body) {
-        //var html = $.parseHTML(body);
-        $html = $(body)
-        var data = $html.filter('.flight_no');
-        console.log(response)
 
+            console.log($(body).find('.flight_info .flight_no:first').text())
+            console.log($(body).find('.date:first').text())
+            console.log($(body).find('.time.dep:first').text())
+            console.log($(body).find('.date').eq(1).text())
+        console.log($(body).find('.time.arv:first').text())
+        console.log($(body).find('.flight_time:first').text())
+        console.log($(body).find('.airport_name.dep:first').text().substring(0, 3))
+        console.log($(body).find('.airport_name.arv:first').text().substring(0, 3))
     });
 
     var fakeView = metarApi('UKKK', 0, 2, 'UUDD', 10, 2);
