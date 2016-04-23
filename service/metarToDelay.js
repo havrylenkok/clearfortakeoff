@@ -8,7 +8,7 @@ var countProbability = function (jsMetar
     var edges = jsMetar.edge;
     if (edges != null) {
         if (edges == 'good') return {probability: 1, delay: 5};
-        if (edges == 'bad') return {probability: 99, delay: 720};
+        if (edges == 'bad') return {probability: 100, delay: 720};
     }
 
     jsMetar = jsMetar.result;
@@ -17,6 +17,7 @@ var countProbability = function (jsMetar
     // + baseDelay;
         ;
     var probabilityOfDelay = 0;
+    var minCategory = 1;
     // if (baseDelay > 30) probabilityOfDelay += 50;
 
     if (jsMetar == null) {
@@ -47,19 +48,22 @@ var countProbability = function (jsMetar
 
         // TODO: clouds
         if(jsMetar.clouds != null && jsMetar.clouds.code !== undefined) {
-
+            base = jsMetar.clouds.base || 999;
             if(jsMetar.clouds.code.match(/BKN/) || jsMetar.clouds.code.match(/OVC/)) {
-                probabilityOfDelay += 5;
-                delayInMins += 10;
+                if (jsMetar.clouds.base < 1){minCategory = 3;} //<=30m
+                else if (jsMetar.clouds.base < 2 && minCategory < 3){minCategory = 2;}
             }
         }
 
         // TODO: rvr (only when visibility is bad)
-
-        // TODO: weather (wind, right?)
-        if (jsMetar.weather != null && jsMetar.weather.descriptor !== undefined) {
-            descriptor = jsMetar.weather.descriptor;
-            if (descriptor.match(/FZ/) || descriptor.match(/SHSN/) || descriptor.match(/PE/)) {
+        
+        // TODO: compare ILS CAT & minCategory
+        
+        // TODO: weather (rain, snow, etc.)
+        if (jsMetar.weather != null ) {
+            descriptor = jsMetar.weather.descriptor||"";
+            condition = jsMetar.weather.condition||"";
+            if (descriptor.match(/FZ/) || (descriptor.match(/SH/)&&condition.match(/SN/)) || descriptor.match(/PE/)) {
                 probabilityOfDelay += 50;
                 delayInMins += 30;
             }
@@ -69,6 +73,7 @@ var countProbability = function (jsMetar
     }
 
     if(probabilityOfDelay > 99) probabilityOfDelay = 99;
+    if(probabilityOfDelay < 1) probabilityOfDelay = 1;
     console.log("Prob" + probabilityOfDelay + " time: " + delayInMins);
     return {probability: probabilityOfDelay, delay: delayInMins};
 };
