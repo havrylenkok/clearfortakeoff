@@ -13,8 +13,8 @@ var parseMetar = function (airport, hoursFromNow) {
 
     //console.log(humanifyMetar(getMetar(airport))[0]);
     var data = humanifyMetar(getMetar(airport, hoursFromNow));
-    console.log("MY DATA: ");
-    console.log(data);
+    // console.log("MY DATA: ");
+    // console.log(data);
     if (data.result == null) {
         return null;
     }
@@ -52,8 +52,8 @@ var getMetar = function (airport, hoursFromNow) {
     // console.log(meteoData);
     var metar = $(meteoData.get(0)).text();
     var taf = $(meteoData.get(1)).text();
-    console.log("CHECKED METAR: " + metar);
-    console.log("CHECKED TAF :" + taf);
+    // console.log("CHECKED METAR: " + metar);
+    // console.log("CHECKED TAF :" + taf);
     if (metar == null || metar == undefined) result = false;
 
 
@@ -66,7 +66,7 @@ var humanifyMetar = function (data) {
 
         if (data.metar.match(/SNOCLO/)) return {edge: 'bad', result: metarToJs(data.metar)};
         if (data.metar.match(/CAVOK/)) return {edge: 'good', result: metarToJs(data.metar)};
-        console.log("HUMANIFY START: " + data.metar + " " + data.taf);
+        // console.log("HUMANIFY START: " + data.metar + " " + data.taf);
 
         var curTime = new Date().getHours();
         var neededTime = curTime + data.hoursFromNow;
@@ -74,7 +74,7 @@ var humanifyMetar = function (data) {
 
         // delete TAF
         if(tafParsed[0].match(/TAF/)) tafParsed[0] = tafParsed[0].slice(3);
-        console.log(tafParsed);
+        // console.log(tafParsed);
 
         var issueTime = tafParsed[0].match(/\d+Z/);
         var firstSymbols = data.airport + " " + issueTime;
@@ -89,13 +89,13 @@ var humanifyMetar = function (data) {
 
         if (data.hoursFromNow < 2) {
             result[0] = metarToJs(data.metar);
-            console.log(result[0]);
+            // console.log(result[0]);
         } else {
 
             console.log("TAFPARSED0:");
-            console.log(tafParsed[0]);
+            // console.log(tafParsed[0]);
             result[0] = metarToJs(tafParsed[0]);
-            console.log(result[0]);
+            // console.log(result[0]);
             for (var i = 1; i < tafParsed.length; i++) {
                 if (tafParsed[i].match(/FM/)) {
                     time = tafParsed[i].match(/FM ?[\d]+/);
@@ -103,7 +103,7 @@ var humanifyMetar = function (data) {
                     // console.log(tafParsed[i]);
                     // console.log(time);
                     // console.log(time[0]);
-                    console.log("FM: " + time);
+                    // console.log("FM: " + time);
                     if(time != null) {
                         time = time[0];
                         time = time.substring(time.length - 4, time.length - 2);
@@ -116,7 +116,7 @@ var humanifyMetar = function (data) {
                     if (tafParsed[i] != null) {
                     range = timeRange(tafParsed[i]);
 
-                        console.log("BECMG|TEMPO: " + range);
+                        // console.log("BECMG|TEMPO: " + range);
                         if (neededTime < range.end && neededTime > range.start) {
                             result[j] = compareTaf(result[j - 1], tafToJs(tafParsed[i], firstSymbols));
                             j++;
@@ -125,9 +125,9 @@ var humanifyMetar = function (data) {
                     }
                 }
                 else if (tafParsed[i].match(/PROB/)) {
-                    console.log("PROB: " + tafParsed[i]);
+                    // console.log("PROB: " + tafParsed[i]);
                     time = tafParsed[i].match(/PROB\d\d [\d]+/);
-                    console.log("TIME: " + time);
+                    // console.log("TIME: " + time);
                     if (time != null) {
                         range = {start: time.substring(9, 11), end: time.substring(time.length - 2, time.length)};
                         if (neededTime < range.end && neededTime > range.start) {
@@ -140,10 +140,10 @@ var humanifyMetar = function (data) {
             }
 
         }
-        console.log("RESULT HUMANIFY: ");
-        console.log(result);
-        console.log("RESULT HUMANIFY j-1: ");
-        console.log(result[j - 1]);
+        // console.log("RESULT HUMANIFY: ");
+        // console.log(result);
+        // console.log("RESULT HUMANIFY j-1: ");
+        // console.log(result[j - 1]);
 // console.log("HEY HO");
 // console.log(metarToJs('METAR KBLV 011657Z AUTO 25015G30KT 210V290 3/8SM R32L/1000FT +FZRA BKN005'));
 // console.log("humanify result: " + result[j-1]);

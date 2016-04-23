@@ -9,10 +9,10 @@ var flightInfo = require('./../service/flightInfo');
 
 exports.main = function(req, res, next) {
     var metarobj = metar.parse('UKKK', 0);
-    console.log("PARSED METAR: "); console.log(metarobj);
+    // console.log("PARSED METAR: "); console.log(metarobj);
     var probability = prob(metarobj, 0, 2);
     // console.log(metarobj.wind.speed);
-    console.log("PROBABILITY: "); console.log(probability);
+    // console.log("PROBABILITY: "); console.log(probability);
     
    flightInfo({from:"kbp", to:"lhr", data:new Date().toJSON().slice(0,10)}, function(err, body){
        if(err) {
