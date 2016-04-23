@@ -24,7 +24,7 @@ db.getNearestAirport({userLat:48.49, userLng:32.21, limit:5}, showDataFromDb);
 
 exports.main = function (req, res, next) {
 
-    db.getList(function (err, data) {
+    db.getNearestAirport({userLat:48.49, userLng:32.21, limit:5}, function(err, data) {
         if(err) {
             console.log('Database error : ' + err);
         }
@@ -32,4 +32,5 @@ exports.main = function (req, res, next) {
             res.render('dbtest', {fromdb : JSON.stringify(data)});
         }
     });
+
 };
