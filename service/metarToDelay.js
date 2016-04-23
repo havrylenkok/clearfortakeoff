@@ -8,7 +8,7 @@ var countProbability = function (jsMetar
     var edges = jsMetar.edge;
     if (edges != null) {
         if (edges == 'good') return {probability: 1, delay: 5};
-        if (edges == 'bad') return {probability: 100, delay: 720};
+        if (edges == 'bad') return {probability: 99, delay: 720};
     }
 
     jsMetar = jsMetar.result;
@@ -48,7 +48,7 @@ var countProbability = function (jsMetar
         // TODO: clouds
         if(jsMetar.clouds != null && jsMetar.clouds.code !== undefined) {
 
-            if(!jsMetar.clouds.code.match(/BKN/) && !jsMetar.clouds.code.match(/OVC/)) {
+            if(jsMetar.clouds.code.match(/BKN/) || jsMetar.clouds.code.match(/OVC/)) {
                 probabilityOfDelay += 5;
                 delayInMins += 10;
             }
@@ -68,7 +68,7 @@ var countProbability = function (jsMetar
 
     }
 
-    if(probabilityOfDelay > 100) probabilityOfDelay = 100;
+    if(probabilityOfDelay > 99) probabilityOfDelay = 99;
     console.log("Prob" + probabilityOfDelay + " time: " + delayInMins);
     return {probability: probabilityOfDelay, delay: delayInMins};
 };
