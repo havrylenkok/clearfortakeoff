@@ -28,6 +28,18 @@ db.getIcaoOrIata('IEV', function (err, data) {
     }
 });
 
+db.updateTop({prob:3, delay:3, icao:'UKKG'});
+
+db.getTop({limit:3}, function(err, data){
+
+    if(err) {
+        console.log('Database error ' + err);
+    }
+    else {
+        console.log('Data from db : '+ JSON.stringify(data));
+    }
+});
+
 exports.main = function (req, res, next) {
 
     db.getList(function (err, data) {

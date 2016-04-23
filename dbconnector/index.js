@@ -23,7 +23,6 @@ var testConnection = function(callback) {
     })
 };
 
-
 var getIcaoOrIata = function(data, callback) {
     
     if(!data || !/^[A-Z]{3,4}$/.test(data)) {
@@ -59,10 +58,45 @@ var getList = function(callback) {
     })
 };
 
+var updateTop = function(data) {
+
+
+    pool.query('UPDATE airport SET prob = (prob + ?)/(counter+1), delay = (delay + ?)/(counter+1), ' +
+                                  'counter = counter + 1 WHERE icao = ?;', [data.prob, data.delay, data.icao],
+    function (err, rows) {
+        if(err) {
+            console.log("Error of update " + err);
+        }
+        else {
+            console.log("Successfully updated " + rows.affectedRows + " rows");
+        }
+    })
+
+};
+
+var getTop = function(data, callback) {
+
+    data.limit = data.limit || 10;
+
+    pool.query('SELECT icao, iata, name, town, delay, prob FROM airport WHERE counter > 0 LIMIT ?;', [data.limit], 
+         function(err, rows){
+            if(err) {
+                console.log("Error to select " + err);
+                callback(err, null);
+            }        
+            else {
+                console.log("Success selected " + JSON.stringify(rows.affectedRows));
+                callback(null, rows);
+            } 
+    });
+};
+
 module.exports = {
                   testConnection: testConnection, 
                   getIcaoOrIata: getIcaoOrIata,
-                  getList : getList
+                  getList : getList,
+                  updateTop : updateTop,
+                  getTop : getTop
                  };
 
 
