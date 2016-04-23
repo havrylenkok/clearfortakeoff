@@ -1,5 +1,10 @@
 ./bin/sensetive.json
 ./.idea
+.idea
 ./node_modules
 npm-debug.log
 node_modules
+
+
+
+.idea/workspace.xml
