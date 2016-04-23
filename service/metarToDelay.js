@@ -48,7 +48,7 @@ var countProbability = function (jsMetar
         // TODO: clouds
         if(jsMetar.clouds != null && jsMetar.clouds.code !== undefined) {
 
-            if(!jsMetar.clouds.code.match(/BKN/) && !jsMetar.clouds.code.match(/OVC/)) {
+            if(jsMetar.clouds.code.match(/BKN/) || jsMetar.clouds.code.match(/OVC/)) {
                 probabilityOfDelay += 5;
                 delayInMins += 10;
             }
