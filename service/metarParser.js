@@ -13,11 +13,11 @@ var parseMetar = function (airport, hoursFromNow) {
 
     if(!((''+airport).match(/[a-zA-Z]+/))) return null;
 
-    console.log("AIRPORT: " + airport + " HOURS: " + hoursFromNow);
+    // console.log("AIRPORT: " + airport + " HOURS: " + hoursFromNow);
     // console.log(humanifyMetar(getMetar(airport))[0]);
     var data = humanifyMetar(getMetar(airport, hoursFromNow));
-    console.log("MY DATA: ");
-    console.log(data);
+    // console.log("MY DATA: ");
+    // console.log(data);
     if (data.result == null) {
         return null;
     }
@@ -55,8 +55,8 @@ var getMetar = function (airport, hoursFromNow) {
     // console.log(meteoData);
     var metar = $(meteoData.get(0)).text();
     var taf = $(meteoData.get(1)).text();
-    console.log("CHECKED METAR: " + metar);
-    console.log("CHECKED TAF :" + taf);
+    // console.log("CHECKED METAR: " + metar);
+    // console.log("CHECKED TAF :" + taf);
     if (metar == null || metar == undefined) result = false;
 
 
@@ -95,7 +95,7 @@ var humanifyMetar = function (data) {
             // console.log(result[0]);
         } else {
 
-            console.log("TAFPARSED0:");
+            // console.log("TAFPARSED0:");
             // console.log(tafParsed[0]);
             result[0] = metarToJs(tafParsed[0]);
             // console.log(result[0]);
