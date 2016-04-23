@@ -5,7 +5,6 @@
 var metar = require('./../service/metarParser');
 var prob = require('./../service/metarToDelay');
 var metarApi = require('./../service/metarApi');
-var flightInfo = require('./../service/flightInfo');
 
 exports.main = function(req, res, next) {
     var metarobj = metar.parse('UKKK', 0);
@@ -13,15 +12,6 @@ exports.main = function(req, res, next) {
     var probability = prob(metarobj, 0, 2);
     // console.log(metarobj.wind.speed);
     // console.log("PROBABILITY: "); console.log(probability);
-    
-   flightInfo({from:"kbp", to:"lhr", data:new Date().toJSON().slice(0,10)}, function(err, body){
-       if(err) {
-           console.log("error " + err);
-       }
-       else {
-           console.log("Returned body\n" + body);
-       }
-   });
 
     var fakeView = metarApi('UKKK', 0, 2, 'UUDD', 10, 2);
     var jfkMetarPure = metar.parse('KJFK', 0);
