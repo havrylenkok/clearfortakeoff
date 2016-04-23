@@ -5,7 +5,7 @@ var connection = mysql.createConnection({
     user     : process.env.OPENSHIFT_MYSQL_DB_USERNAME || 'victor',
     password : process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'qwerty',
     port     : process.env.OPENSHIFT_MYSQL_DB_PORT || 3306,
-    database : 'Clearfortakeoff'
+    database : 'clearfortakeoff'
 });
 
 var testConnection = function(callback) {
