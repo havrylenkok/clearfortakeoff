@@ -2,9 +2,9 @@ var mysql = require('mysql');
 
 var connection = mysql.createConnection({
     host     : process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost',
-    user     : process.env.OPENSHIFT_MYSQL_DB_USERNAME || 'victor',
-    password : process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'qwerty',
-    port     : process.env.OPENSHIFT_MYSQL_DB_PORT || 3306,
+    user     : process.env.OPENSHIFT_MYSQL_DB_USERNAME || 'adminRAYKbP1',
+    password : process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'jbDvw4S1le-U',
+    port     : process.env.OPENSHIFT_MYSQL_DB_PORT || 59056,
     database : 'clearfortakeoff'
 });
 
