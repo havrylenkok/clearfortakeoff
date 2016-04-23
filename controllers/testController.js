@@ -9,10 +9,10 @@ var metarApi = require('./../service/metarApi');
 exports.main = function(req, res, next) {
     var metarobj = metar.parse('UKKK', 0);
     console.log("PARSED METAR: "); console.log(metarobj);
-    var probability = prob(metarobj, 0);
+    var probability = prob(metarobj, 0, 2);
     // console.log(metarobj.wind.speed);
     console.log("PROBABILITY: "); console.log(probability);
-    var fakeView = metarApi('UKKK', 0, 'UUDD', 10);
+    var fakeView = metarApi('UKKK', 0, 2, 'UUDD', 10, 2);
 
     res.render('test', {
         title: 'Clear for take off',

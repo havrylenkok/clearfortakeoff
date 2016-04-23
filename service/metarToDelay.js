@@ -9,8 +9,7 @@
  * @param ils ILS category of airport
  */
 var countProbability = function (jsMetar, type, ils)
-// , baseDelay
-)
+// , baseDelay)
 {
     var edges = jsMetar.edge;
     if (edges != null) {
