@@ -5,8 +5,6 @@
 var metar = require('./../service/metarParser');
 var prob = require('./../service/metarToDelay');
 var metarApi = require('./../service/metarApi');
-var dbconnector = require('./../dbconnector');
-
 
 exports.main = function(req, res, next) {
     var metarobj = metar.parse('UKKK', 0);
@@ -15,8 +13,6 @@ exports.main = function(req, res, next) {
     // console.log(metarobj.wind.speed);
     console.log("PROBABILITY: "); console.log(probability);
     var fakeView = metarApi('UKKK', 0, 'UUDD', 10);
-    
-
 
     res.render('test', {
         title: 'Clear for take off',
@@ -28,7 +24,6 @@ exports.main = function(req, res, next) {
         name: process.env.OPENSHIFT_MYSQL_DB_USERNAME,
         pass: process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
         url: process.env.OPENSHIFT_MYSQL_DB_URL,
-        db: dbconnector(),
         fake: fakeView
     });
 };

@@ -4,8 +4,7 @@
 ./node_modules
 npm-debug.log
 node_modules
-.idea/workspace.xml
+
+
 
 .idea/workspace.xml
-
-*.xml
