@@ -63,7 +63,7 @@ var countProbability = function (jsMetar
         if (jsMetar.weather != null ) {
             descriptor = jsMetar.weather.descriptor||"";
             condition = jsMetar.weather.condition||"";
-            if (descriptor.match(/FZ/) || (descriptor.match(/SH/)&&condition.match(/SN/)) || descriptor.match(/PE/)) {
+            if (descriptor.match(/FZ/) || (descriptor.match(/SH/)&&condition.match(/SN/)) || condition.match(/PE/) || condition.match(/PO/) || condition.match(/FC/) || condition.match(/TS/) || condition.match(/VA/)) {
                 probabilityOfDelay += 50;
                 delayInMins += 30;
             }
