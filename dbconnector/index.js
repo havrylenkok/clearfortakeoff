@@ -17,7 +17,7 @@ var testConnection = function(callback) {
             callback(err, null);
         }
         else {
-            console.log("Successfully connected : " + rows.id);
+            console.log("Successfully selected : " + rows[0].id);
             callback(null, rows[0]);
         }
     })
@@ -39,7 +39,7 @@ var getIcaoOrIata = function(data, callback) {
             callback(err, null);
         }
         else {
-            console.log("Successfully connected : " + JSON.stringify(rows));
+            console.log("Successfully selected : " + JSON.stringify(rows));
             callback(null, rows[0]);
         }
     })
@@ -52,7 +52,7 @@ var getList = function(callback) {
             callback(err, null);
         }
         else {
-            console.log("Successfully connected");
+            console.log("Successfully selected");
             callback(null, rows);
         }
     })
@@ -85,10 +85,28 @@ var getTop = function(data, callback) {
                 callback(err, null);
             }        
             else {
-                console.log("Success selected " + JSON.stringify(rows.affectedRows));
+                console.log("Success selected top");
                 callback(null, rows);
             } 
     });
+};
+
+var getNearestAirport = function (data, callback) {
+
+    data.limit = data.limit || 1;
+
+    pool.query({sql:'SELECT icao, iata, name, town, sqrt(pow(? - lat, 2) + pow(? - lng,2)) as len ' +
+               'FROM airport  ORDER BY len LIMIT ?', values: [data.userLat, data.userLng, data.limit]},
+        function(err, rows){
+            if(err) {
+                console.log("Error to select " + err);
+                callback(err, null);
+            }
+            else {
+                console.log("Success selected nearest airports");
+                callback(null, rows);
+            }
+        });
 };
 
 module.exports = {
@@ -96,7 +114,8 @@ module.exports = {
                   getIcaoOrIata: getIcaoOrIata,
                   getList : getList,
                   updateTop : updateTop,
-                  getTop : getTop
+                  getTop : getTop,
+                  getNearestAirport : getNearestAirport
                  };
 
 
