@@ -39,7 +39,7 @@ var countProbability = function (jsMetar, type, ils)
             // TODO: wind speed
             // MPS
             if (jsMetar.wind.speed > 7) {
-                probabilityOfDelay += 20;
+                probabilityOfDelay += 20+jsMetar.wind.speed*0.25;
                 delayInMins += 25;
             }
             if (jsMetar.wind.ghost != 0) {
@@ -85,7 +85,7 @@ var countProbability = function (jsMetar, type, ils)
                         if (js.metar.rvr != null && jsMetar.rvr !== undefined) {
                             if (js.metar.rvr.visibility != null && js.metar.rvr.visibility != undefined) {
                                 var vis = js.metar.rvr.visibility;
-                                if (vis < 350) {
+                                if (vis < 1200) {//350m
                                     probabilityOfDelay += 70;
                                     delayInMins += 60;
                                 }
@@ -100,7 +100,7 @@ var countProbability = function (jsMetar, type, ils)
                         if (js.metar.rvr != null && jsMetar.rvr !== undefined) {
                             if (js.metar.rvr.visibility != null && js.metar.rvr.visibility != undefined) {
                                 var vis = js.metar.rvr.visibility;
-                                if (vis < 200) {
+                                if (vis < 700) {//200m
                                     probabilityOfDelay += 70;
                                     delayInMins += 60;
                                 }
