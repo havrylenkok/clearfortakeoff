@@ -1,17 +1,17 @@
 var mysql = require('mysql');
 
-var pool = mysql.createPool({
+var connection = mysql.createConnection({
     host     : process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost',
     user     : process.env.OPENSHIFT_MYSQL_DB_USERNAME || 'victor',
     password : process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'qwerty',
     port     : process.env.OPENSHIFT_MYSQL_DB_PORT || 3306,
-    database : 'Clearfortakeoff',
-    connectionLimit : 10
+    database : 'clearfortakeoff'
 });
 
 var testConnection = function(callback) {
 
-    pool.query({sql: "SELECT * FROM airport WHERE icao = ?", values:['UKKK']}, function (err, rows) {
+    connection.connect();
+    connection.query({sql: "SELECT * FROM airport WHERE icao = ?", values:['UKKK']}, function (err, rows) {
         if(err) {
             console.log("Catch error: " + err);
             callback(err, null);
@@ -20,6 +20,7 @@ var testConnection = function(callback) {
             console.log("Successfully selected : " + rows[0].id);
             callback(null, rows[0]);
         }
+        connection.end();
     })
 };
 
@@ -33,7 +34,7 @@ var getIcaoOrIata = function(data, callback) {
     if(data.length == 4) {query = "SELECT iata FROM airport WHERE icao = ?"}
     else if(data.length == 3) {query = "SELECT icao FROM airport WHERE iata = ?"}
     
-    pool.query({sql: query, values:data}, function (err, rows) {
+    connection.query({sql: query, values:data}, function (err, rows) {
         if(err) {
             console.log("Catch error: " + err);
             callback(err, null);
@@ -46,7 +47,7 @@ var getIcaoOrIata = function(data, callback) {
 };
 
 var getList = function(callback) {
-    pool.query('SELECT icao, iata, name, town FROM airport', function (err, rows) {
+    connection.query('SELECT icao, iata, name, town FROM airport', function (err, rows) {
         if(err) {
             console.log("Catch error: " + err);
             callback(err, null);
@@ -61,7 +62,7 @@ var getList = function(callback) {
 var updateTop = function(data) {
 
 
-    pool.query('UPDATE airport SET prob = (prob + ?)/(counter+1), delay = (delay + ?)/(counter+1), ' +
+    connection.query('UPDATE airport SET prob = (prob + ?)/(counter+1), delay = (delay + ?)/(counter+1), ' +
                                   'counter = counter + 1 WHERE icao = ?;', [data.prob, data.delay, data.icao],
     function (err, rows) {
         if(err) {
@@ -78,7 +79,7 @@ var getTop = function(data, callback) {
 
     data.limit = data.limit || 10;
 
-    pool.query('SELECT icao, iata, name, town, delay, prob FROM airport WHERE counter > 0 LIMIT ?;', [data.limit], 
+    connection.query('SELECT icao, iata, name, town, delay, prob FROM airport WHERE counter > 0 LIMIT ?;', [data.limit],
          function(err, rows){
             if(err) {
                 console.log("Error to select " + err);
@@ -95,7 +96,7 @@ var getNearestAirport = function (data, callback) {
 
     data.limit = data.limit || 1;
 
-    pool.query({sql:'SELECT icao, iata, name, town, sqrt(pow(? - lat, 2) + pow(? - lng,2)) as len ' +
+    connection.query({sql:'SELECT icao, iata, name, town, sqrt(pow(? - lat, 2) + pow(? - lng,2)) as len ' +
                'FROM airport  ORDER BY len LIMIT ?', values: [data.userLat, data.userLng, data.limit]},
         function(err, rows){
             if(err) {
