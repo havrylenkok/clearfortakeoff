@@ -10,10 +10,9 @@ var flightInfo = require('./../service/flightInfo');
 exports.main = function(req, res, next) {
     var metarobj = metar.parse('UKKK', 0);
     console.log("PARSED METAR: "); console.log(metarobj);
-    var probability = prob(metarobj, 0);
+    var probability = prob(metarobj, 0, 2);
     // console.log(metarobj.wind.speed);
     console.log("PROBABILITY: "); console.log(probability);
-    var fakeView = metarApi('UKKK', 0, 'UUDD', 10);
     
    flightInfo({from:"kbp", to:"lhr", data:new Date().toJSON().slice(0,10)}, function(err, body){
        if(err) {
@@ -23,6 +22,12 @@ exports.main = function(req, res, next) {
            console.log("Returned body\n" + body);
        }
    });
+
+    var fakeView = metarApi('UKKK', 0, 2, 'UUDD', 10, 2);
+    var jfkMetarPure = metar.parse('KJFK', 0);
+    console.log("KJFK PURE METAR");
+    console.log(jfkMetarPure);
+
 
     res.render('test', {
         title: 'Clear for take off',
@@ -34,6 +39,7 @@ exports.main = function(req, res, next) {
         name: process.env.OPENSHIFT_MYSQL_DB_USERNAME,
         pass: process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
         url: process.env.OPENSHIFT_MYSQL_DB_URL,
-        fake: fakeView
+        fake: fakeView,
+        jfkMetarPure: jfkMetarPure
     });
 };
