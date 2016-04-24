@@ -72,8 +72,8 @@ var countProbability = function (jsMetar, type, ils, course)
                 // wind speed
                 // MPS
                 if (Math.sin(myCourse) * jsMetar.wind.speed > 7) {
-                    console.log("REAL SPEED: " + Math.sin(dif) * jsMetar.wind.speed)
-                    probabilityOfDelay += 20 + jsMetar.wind.speed * 0.25;
+                    console.log("REAL SPEED: " + Math.sin(myCourse) * jsMetar.wind.speed)
+                    probabilityOfDelay += 20 + Math.sin(myCourse) * jsMetar.wind.speed * 0.33;
                     delayInMins += 25;
                 }
                 if (jsMetar.wind.ghost != 0) {
