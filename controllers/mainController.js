@@ -5,6 +5,7 @@
 
 var db = require('./../dbconnector');
 var metarApi = require('./../service/metarApi');
+var parseFlight = require('./../service/parseFlight');
 
 exports.home = function(req, res, next) {
 
@@ -17,6 +18,10 @@ exports.home = function(req, res, next) {
                             res2[0].icao, 10, res2[0].ils, res2[0].cource);
                         console.log(res3);
 
+                        var fInfo = parseFlight(req.body.inputVal2, req.body.inputVal1, new Date().toJSON().slice(0,10));
+                        
+                       // console.log("fInfo " + fInfo[0].flight_no);
+                        
                         db.updateTop({prob:res3.sourceProb, delay:res3.sourceTime, icao:res1[0].icao});
                         db.updateTop({prob:res3.destProb, delay:res3.destTime, icao:res2[0].icao});
 
@@ -29,7 +34,19 @@ exports.home = function(req, res, next) {
 
                         var resD = resH + 'h ' + resM + ' m';
 
-                        res.send({flight_percent:Math.round(resultPercent) + '%',flight_time:resD});
+                        console.log(fInfo[0].dep_time);
+
+                        res.send({flight_percent:Math.round(resultPercent) + '%',flight_time:resD,
+                                airport_name_first_airport:req.body.inputVal2,
+                                airport_name_third_airport: req.body.inputVal1,
+                                airport_name_second_airport:fInfo[0].flight_no,
+                                departure_time:fInfo[0].dep_time,
+                                dep_date:fInfo[0].dep_date,
+                                arr_time:fInfo[0].arr_time,
+                                arr_date:fInfo[0].arr_date,
+                                city_from:fInfo[0].city_from,
+                                city_to:fInfo[0].city_to
+                        });
 
                     }
                 })
@@ -37,7 +54,22 @@ exports.home = function(req, res, next) {
         });
     }
     else {
-        res.render('index');
+        if(req.body.latitude){
+            db.getNearestAirport({userLat:req.body.latitude, userLng:req.body.longitude}, function (err, rows) {
+                if(!err) {
+                    res.send({
+                        rowsIata: rows[0].iata
+                    });
+                    console.log(rows[0].iata);
+                }
+                else{
+                    console.log('');
+                }
+            })
+        }
+        else{
+            res.render('index');
+        }
     }
     
 };

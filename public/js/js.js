@@ -75,34 +75,49 @@ $(document).ready(function () {
     });
 
     $('.calculate_button').click('on', function () {
-        var inputVal1, inputVal2;
-        if($('.flightNumber_input').val() =='——'){
-            inputVal1 = $('.airportTo_input').val();
-            inputVal2 = $('.airportFrom_input').val();
-        }
-       else{
-            inputVal1 = $('.flightNumber_input').val();
-        }
-        $.when( $.ajax({
-            type: "POST",
-            url: "/",
-            data: { inputVal1: inputVal1, inputVal2:inputVal2},
-            success: function(data) {
-                console.log(data);
-                $('.delay_probability_percent').html(data.flight_percent + '<div class="delay_probability_time"></div>')
-                $('.delay_probability_time').html(data.flight_time)
-                $('.calculate_block').slideDown();
-                $('.btn').css({borderRadius: '50% 50% 0 0'})
-            },
-            error: function(jqXHR, textStatus, err) {
-                //show error message
-                //alert('text status '+textStatus+', err '+err)
+        if (
+            (
+            $('.airportTo_input').val() && $('.airportFrom_input').val()
+            && $('.flightNumber_input').val() == '——')
+            ||
+            (
+                $('.flightNumber_input').val() && $('.airportFrom_input').val() == '——' && $('.airportTo_input').val() == '——'
+            )
+        )
+        {
+            var inputVal1, inputVal2;
+            if($('.flightNumber_input').val() =='——'){
+                inputVal1 = $('.airportTo_input').val();
+                inputVal2 = $('.airportFrom_input').val();
             }
-        })).done(function(){
-            // console.log('g');
+            else{
+                inputVal1 = $('.flightNumber_input').val();
+            }
+            $.when( $.ajax({
+                type: "POST",
+                url: "/",
+                data: { inputVal1: inputVal1.toUpperCase(), inputVal2:inputVal2.toUpperCase()},
+                success: function(data) {
+                    console.log(data);
+                    $('.delay_probability_percent').html(data.flight_percent + '<div class="delay_probability_time"></div>')
+                    $('.delay_probability_time').html(data.flight_time);
+                    $('.airport_name.first_airport').html(data.airport_name_first_airport);
+                    $('.airport_name.second_airport').html(data.airport_name_second_airport);
+                    $('.airport_name.third_airport').html(data.airport_name_third_airport);
+                    $('.departure_time').html(data.departure_time);
+                    $('.arrival_time').html(data.arr_time);
+                    $('.arrival_date').html(data.arr_date);
+                    $('.departure_date').html(data.dep_date);
+                    $('.departure_city').html(data.city_from);
+                    $('.arrival_city').html(data.city_to);
 
-        });
-
+                    $('.calculate_block').slideDown();
+                    $('.btn').css({borderRadius: '50% 50% 0 0'})
+                },
+                error: function(jqXHR, textStatus, err) {
+                }
+            }))
+        }
     });
 
     //change colors
@@ -129,9 +144,7 @@ $(document).ready(function () {
             start++;
         }
     }
-
-    //Geolocation
-
+$('.form_title.airportFrom_title').click('on', function () {
     if (geoPosition.init()) {  //  Initialisation
         geoPosition.getCurrentPosition(success_callback, error_callback, {enableHighAccuracy: true});
     } else {
@@ -141,12 +154,25 @@ $(document).ready(function () {
 
     // p : geolocation object
     function success_callback(p) {
-        console.log(p.coords.latitude);
-        console.log(p.coords.longitude);
+        $.when( $.ajax({
+            type: "POST",
+            url: "/",
+            data: { latitude: p.coords.latitude, longitude:p.coords.longitude},
+            success: function(data) {
+                $('.airportFrom_input').val(data.rowsIata)
+            },
+            error: function(jqXHR, textStatus, err) {
+                
+            }
+        }))
     }
 
     function error_callback(p) {
         // p.message : error message
     }
+})
+    //Geolocation
+
+
 
 });
