@@ -47,7 +47,7 @@ var countProbability = function (jsMetar, type, ils, course)
 
             // wind course. Compare to route course
             if (jsMetar.wind != null) {
-                var myCourse;
+                var myCourse = 180;
                 var dif = course[0] * 10;
                 console.log("DIF: " + dif);
 
@@ -55,7 +55,7 @@ var countProbability = function (jsMetar, type, ils, course)
                     if(jsMetar.wind.course.match(/VRB/i)) {
                         console.log("VRB COURSE");
                         console.log(jsMetar.wind.course);
-                        dif = 1;
+                        myCourse = 1;
                     } else {
                         for (var i = 0; i < course.length; i++) {
                             dif = Math.abs((course[i] * 10) - jsMetar.wind.course);
@@ -63,15 +63,15 @@ var countProbability = function (jsMetar, type, ils, course)
                             console.log(course[i] * 10);
                             console.log(jsMetar.wind.course);
                             console.log(dif);
-                            if (dif < 180) myCourse = course[i];
+                            if (dif > 180) dif -= 180;
+                            if (myCourse > dif) myCourse = dif;
                         }
-                        if (dif > 180) dif -= 180;
                     }
                 }
 
                 // wind speed
                 // MPS
-                if (Math.sin(dif) * jsMetar.wind.speed > 7) {
+                if (Math.sin(myCourse) * jsMetar.wind.speed > 7) {
                     console.log("REAL SPEED: " + Math.sin(dif) * jsMetar.wind.speed)
                     probabilityOfDelay += 20 + jsMetar.wind.speed * 0.25;
                     delayInMins += 25;
