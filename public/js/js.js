@@ -75,8 +75,19 @@ $(document).ready(function () {
     });
 
     $('.calculate_button').click('on', function () {
-        $('.calculate_block').slideDown();
-        $('.btn').css({borderRadius: '50% 50% 0 0'})
+        if (
+            (
+            $('.airportTo_input').val() && $('.airportFrom_input').val()
+            && $('.flightNumber_input').val() == '——')
+            ||
+            (
+                $('.flightNumber_input').val() && $('.airportFrom_input').val() == '——' && $('.airportTo_input').val() == '——'
+            )
+        )
+        {
+            $('.calculate_block').slideDown();
+            $('.btn').css({borderRadius: '50% 50% 0 0'})
+        }
     });
 
     //change colors
