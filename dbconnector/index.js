@@ -111,10 +111,10 @@ var getNearestAirport = function (data, callback) {
         });
 };
 
-var getCources = function(data, callback) {
+var getInfo = function(data, callback) {
 
-    connection.query('SELECT a.icao, r.cource FROM runways r INNER JOIN ' +
-                     '(SELECT id, icao FROM airport WHERE iata = ?) a on r.airport_id = a.id;',[data.iata],
+    connection.query('SELECT a.ils, a.icao, r.cource FROM runways r INNER JOIN ' +
+                     '(SELECT ils, id, icao FROM airport WHERE iata = ?) a on r.airport_id = a.id;',[data.iata],
     function (err, rows) {
         if(err) {
             console.log("Error to select " + err);
@@ -134,7 +134,7 @@ module.exports = {
                   updateTop : updateTop,
                   getTop : getTop,
                   getNearestAirport : getNearestAirport,
-                  getCources : getCources 
+                  getInfo : getInfo 
                  };
 
 

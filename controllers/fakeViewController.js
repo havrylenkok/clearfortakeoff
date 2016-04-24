@@ -10,15 +10,18 @@ var prob = require('./../service/metarToDelay');
 var metarApi = require('./../service/metarApi');
 var parseFlight = require('./../service/parseFlight');
 var city = require('./../service/parseCityInfo');
-var db = require('./../dbconnector/index');
+var db = require('./../dbconnector');
 
 
 exports.main = function(req, res, next) {
     
-    db.getIcaoOrIata('UKKK', function (err, res) {
-        if(!err) {
-            db.getIcaoOrIata('KJFK', function (err2, res2) {
-                metarApi(res, 0, )
+    db.getList(function (err1, res1) {
+        if(!err1) {
+            db.getList(function (err2, res2) {
+               if(!err2) {
+                   console.log("res1 = " + res1[0] + "\n res2 = " + res2[0]);
+               }
+
             })
         }
     })
