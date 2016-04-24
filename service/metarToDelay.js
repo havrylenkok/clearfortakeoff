@@ -37,7 +37,7 @@ var countProbability = function (jsMetar, type, ils, course)
         } else {
             // console.log("JS METAR: " + jsMetar);
 
-            // TODO: wind course. Compare to route course?
+            // TODO: wind course. Compare to route course
 
             if (jsMetar.wind != null) {
 
@@ -75,6 +75,7 @@ var countProbability = function (jsMetar, type, ils, course)
                     delayInMins += 25;
                 }
             } else {
+                var vis;
                 switch (minCategory) {
                     case 1:
                         if (compareIls(minCategory, ils)) {
@@ -89,7 +90,7 @@ var countProbability = function (jsMetar, type, ils, course)
                         if (compareIls(minCategory, ils)) {
                             if (js.metar.rvr != null && jsMetar.rvr !== undefined) {
                                 if (js.metar.rvr.visibility != null && js.metar.rvr.visibility != undefined) {
-                                    var vis = js.metar.rvr.visibility;
+                                    vis = js.metar.rvr.visibility;
                                     if (vis < 1200) {//350m
                                         probabilityOfDelay += 70;
                                         delayInMins += 60;
@@ -100,11 +101,12 @@ var countProbability = function (jsMetar, type, ils, course)
                             probabilityOfDelay += 70;
                             delayInMins += 60;
                         }
+                        break;
                     case 3:
                         if (compareIls(minCategory, ils)) {
                             if (js.metar.rvr != null && jsMetar.rvr !== undefined) {
                                 if (js.metar.rvr.visibility != null && js.metar.rvr.visibility != undefined) {
-                                    var vis = js.metar.rvr.visibility;
+                                    vis = js.metar.rvr.visibility;
                                     if (vis < 700) {//200m
                                         probabilityOfDelay += 70;
                                         delayInMins += 60;
