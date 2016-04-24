@@ -23,7 +23,7 @@ exports.main = function(req, res, next) {
     //
 
 
-    var fakeView = metarApi('UKKK', 0, 2, 0, 'UUDD', 10, 2, 0);
+    var fakeView = metarApi('UKKK', 0, 2, [0,10], 'LEBL', 10, 2, [0,15]);
     var jfkMetarPure = metar.parse('KJFK', 0);
     //console.log("KJFK PURE METAR");
     //console.log(jfkMetarPure);
@@ -36,7 +36,7 @@ exports.main = function(req, res, next) {
     res.render('test', {
         title: 'Clear for take off',
         metar: metarobj,
-        pureMetar: metar.pureMetar('UKKK'),
+        pureMetar: metar.pureMetar('VHHH'),
         prob: probability,
         host: process.env.OPENSHIFT_MYSQL_DB_HOST,
         port: process.env.OPENSHIFT_MYSQL_DB_PORT,
