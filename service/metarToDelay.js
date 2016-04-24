@@ -11,17 +11,25 @@
 var countProbability = function (jsMetar, type, ils, course)
 // , baseDelay)
     {
-        if (jsMetar == null) return {probability: 1, delay: 5};
+        console.log("METAR: ")
+        console.log(jsMetar);
+        if (jsMetar == null) {
+            console.log("METAR: " + null);
+            return {probability: 1, delay: 5};
+        }
 
         if (jsMetar.edge != null) {
+            console.log("MEtaR" + "EDGE");
             var edges = jsMetar.edge;
             if (edges == 'good') return {probability: 1, delay: 5};
             if (edges == 'bad') return {probability: 100, delay: 720};
         }
-        
-        if(jsMetar.result == null) { return {probability: 1, delay: 5}; }
 
-        
+        if (jsMetar.result == null) {
+            return {probability: 1, delay: 5};
+        }
+
+
         jsMetar = jsMetar.result;
 
         var delayInMins = 0
@@ -35,15 +43,36 @@ var countProbability = function (jsMetar, type, ils, course)
             probabilityOfDelay = 0;
             delayInMins = 0;
         } else {
-            // console.log("JS METAR: " + jsMetar);
+            console.log("JS METAR: " + jsMetar);
 
-            // TODO: wind course. Compare to route course
-
+            // wind course. Compare to route course
             if (jsMetar.wind != null) {
+                var myCourse;
+                var dif = course[0] * 10;
+                console.log("DIF: " + dif);
 
-                // TODO: wind speed
+                if(jsMetar.wind.course != null) {
+                    if(jsMetar.wind.course.match(/VRB/i)) {
+                        console.log("VRB COURSE");
+                        console.log(jsMetar.wind.course);
+                        dif = 1;
+                    } else {
+                        for (var i = 0; i < course.length; i++) {
+                            dif = Math.abs((course[i] * 10) - jsMetar.wind.course);
+                            console.log("LOCAL DIF: ");
+                            console.log(course[i] * 10);
+                            console.log(jsMetar.wind.course);
+                            console.log(dif);
+                            if (dif < 180) myCourse = course[i];
+                        }
+                        if (dif > 180) dif -= 180;
+                    }
+                }
+
+                // wind speed
                 // MPS
-                if (jsMetar.wind.speed > 7) {
+                if (Math.sin(dif) * jsMetar.wind.speed > 7) {
+                    console.log("REAL SPEED: " + Math.sin(dif) * jsMetar.wind.speed)
                     probabilityOfDelay += 20 + jsMetar.wind.speed * 0.25;
                     delayInMins += 25;
                 }
