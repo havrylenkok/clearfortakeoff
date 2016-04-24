@@ -75,27 +75,6 @@ $(document).ready(function () {
     });
 
     $('.calculate_button').click('on', function () {
-        var inputVal1, inputVal2;
-        if($('.flightNumber_input').val() =='——'){
-            inputVal1 = $('.airportTo_input').val();
-            inputVal2 = $('.airportFrom_input').val();
-        }
-       else{
-            inputVal1 = $('.flightNumber_input').val();
-        }
-        $.ajax({
-            type: "POST",
-            url: "/test",
-            timeout: 2000,
-            data: { inputVal1: inputVal1, inputVal2:inputVal2},
-            success: function(data) {
-                alert('Success!')
-            },
-            error: function(jqXHR, textStatus, err) {
-                //show error message
-                alert('text status '+textStatus+', err '+err)
-            }
-        });
         $('.calculate_block').slideDown();
         $('.btn').css({borderRadius: '50% 50% 0 0'})
     });

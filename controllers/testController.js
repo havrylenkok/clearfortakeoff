@@ -13,7 +13,6 @@ var callbackCity = function (res) {
 };
 
 exports.main = function(req, res, next) {
-    console.log(req.body)
     var metarobj = metar.parse('UKKK', 0);
     // console.log("PARSED METAR: "); console.log(metarobj);
     var probability = prob(metarobj, 0, 2);
