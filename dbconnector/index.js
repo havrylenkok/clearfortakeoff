@@ -77,9 +77,10 @@ var updateTop = function(data) {
 
 var getTop = function(data, callback) {
 
-    data.limit = data.limit || 10;
+    data.limit = data.limit || 40;
 
-    connection.query('SELECT icao, iata, name, town, delay, prob FROM airport WHERE counter > 0 LIMIT ?;', [data.limit],
+    connection.query('SELECT icao, iata, name, town, delay, prob FROM airport WHERE counter > 0 ORDER BY prob LIMIT ?;',
+         [data.limit],
          function(err, rows){
             if(err) {
                 console.log("Error to select " + err);
