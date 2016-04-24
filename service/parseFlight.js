@@ -7,9 +7,15 @@ var document = jsdom('<html></html>', {});
 var window = document.defaultView;
 var $ = require('jquery')(window);
 
-module.exports = function () {
+module.exports = function (airport1, airport2, date) {
+    if(date == null || date == undefined) date = '2016-04-24T00%3A00%3A00';
+    if(date == null || date == undefined) airport1 = 'LHR';
+    if(date == null || date == undefined) airport2 = 'JFK';
     var obj = [];
-    var url = "https://transit.navitime.com/en/flight/schedule/result?depCity=&depAirport=JFK&arvCity=&arvAirport=LHR&date=2016-04-24T00%3A00%3A00"
+    var url1 = 'https://transit.navitime.com/en/flight/schedule/result?depCity=&depAirport=';
+    var url2 = '&arvCity=&arvAirport=';
+    var url3 = '&date=';
+    var url = url1 + airport1 + url2 + airport2 + url3 + date;
 
     request(url, function (error, response, body) {
         var t = $(body).find('.flight_info .flight_no').text();
@@ -38,7 +44,7 @@ module.exports = function () {
                 })
             }
         }
-        console.log('obj', obj.length);
+        // console.log('obj', obj.length);
 
         //console.log($(body).find('.airport_name.dep:first').text().substring(0, 3));
         //console.log($(body).find('.airport_name.arv:first').text().substring(0, 3))
