@@ -44,7 +44,7 @@ module.exports = function (airport1, airport2, date) {
                 })
             }
         }
-        console.log('obj', obj.length);
+        // console.log('obj', obj.length);
 
         //console.log($(body).find('.airport_name.dep:first').text().substring(0, 3));
         //console.log($(body).find('.airport_name.arv:first').text().substring(0, 3))

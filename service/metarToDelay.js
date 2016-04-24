@@ -11,15 +11,15 @@
 var countProbability = function (jsMetar, type, ils, course)
 // , baseDelay)
     {
-        console.log("METAR: ")
-        console.log(jsMetar);
+        // console.log("METAR: ")
+        // console.log(jsMetar);
         if (jsMetar == null) {
-            console.log("METAR: " + null);
+            // console.log("METAR: " + null);
             return {probability: 1, delay: 5};
         }
 
         if (jsMetar.edge != null) {
-            console.log("MEtaR" + "EDGE");
+            // console.log("MEtaR" + "EDGE");
             var edges = jsMetar.edge;
             if (edges == 'good') return {probability: 1, delay: 5};
             if (edges == 'bad') return {probability: 100, delay: 720};
@@ -43,26 +43,26 @@ var countProbability = function (jsMetar, type, ils, course)
             probabilityOfDelay = 0;
             delayInMins = 0;
         } else {
-            console.log("JS METAR: " + jsMetar);
+            // console.log("JS METAR: " + jsMetar);
 
             // wind course. Compare to route course
             if (jsMetar.wind != null) {
                 var myCourse;
                 var dif = course[0] * 10;
-                console.log("DIF: " + dif);
+                // console.log("DIF: " + dif);
 
                 if(jsMetar.wind.course != null) {
                     if(jsMetar.wind.course.match(/VRB/i)) {
-                        console.log("VRB COURSE");
-                        console.log(jsMetar.wind.course);
+                        // console.log("VRB COURSE");
+                        // console.log(jsMetar.wind.course);
                         dif = 1;
                     } else {
                         for (var i = 0; i < course.length; i++) {
                             dif = Math.abs((course[i] * 10) - jsMetar.wind.course);
-                            console.log("LOCAL DIF: ");
-                            console.log(course[i] * 10);
-                            console.log(jsMetar.wind.course);
-                            console.log(dif);
+                            // console.log("LOCAL DIF: ");
+                            // console.log(course[i] * 10);
+                            // console.log(jsMetar.wind.course);
+                            // console.log(dif);
                             if (dif < 180) myCourse = course[i];
                         }
                         if (dif > 180) dif -= 180;
@@ -72,7 +72,7 @@ var countProbability = function (jsMetar, type, ils, course)
                 // wind speed
                 // MPS
                 if (Math.sin(dif) * jsMetar.wind.speed > 7) {
-                    console.log("REAL SPEED: " + Math.sin(dif) * jsMetar.wind.speed)
+                    // console.log("REAL SPEED: " + Math.sin(dif) * jsMetar.wind.speed)
                     probabilityOfDelay += 20 + jsMetar.wind.speed * 0.25;
                     delayInMins += 25;
                 }
@@ -167,7 +167,7 @@ var countProbability = function (jsMetar, type, ils, course)
 
         if (probabilityOfDelay > 99) probabilityOfDelay = 99;
         if (probabilityOfDelay < 1) probabilityOfDelay = 1;
-        console.log("Prob" + probabilityOfDelay + " time: " + delayInMins);
+        // console.log("Prob" + probabilityOfDelay + " time: " + delayInMins);
         return {probability: probabilityOfDelay, delay: delayInMins};
     }
 
