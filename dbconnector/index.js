@@ -90,7 +90,6 @@ var getTop = function(data, callback) {
                 console.log("Success selected top");
                 callback(null, rows);
             } 
-            connection.end(); 
     });
 };
 
@@ -109,6 +108,7 @@ var getNearestAirport = function (data, callback) {
                 console.log("Success selected nearest airports");
                 callback(null, rows);
             }
+            connection.end()
         });
 };
 
