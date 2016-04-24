@@ -1,0 +1,12 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/test.css')
+    body
+        block content
+            h1= title
+            p We welcome you to our humble #{title}
+            h3= "Fake View"
+            div #{ "Source prob " + fake.sourceProb + " Source time " + fake.sourceTime + " Dest prob " +  fake.destProb }
+            div #{ "Dest time " + fake.destTime }
