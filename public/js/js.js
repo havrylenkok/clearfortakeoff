@@ -75,8 +75,34 @@ $(document).ready(function () {
     });
 
     $('.calculate_button').click('on', function () {
-        $('.calculate_block').slideDown();
-        $('.btn').css({borderRadius: '50% 50% 0 0'})
+        var inputVal1, inputVal2;
+        if($('.flightNumber_input').val() =='——'){
+            inputVal1 = $('.airportTo_input').val();
+            inputVal2 = $('.airportFrom_input').val();
+        }
+       else{
+            inputVal1 = $('.flightNumber_input').val();
+        }
+        $.when( $.ajax({
+            type: "POST",
+            url: "/",
+            data: { inputVal1: inputVal1, inputVal2:inputVal2},
+            success: function(data) {
+                console.log(data);
+                $('.delay_probability_percent').html(data.flight_percent + '<div class="delay_probability_time"></div>')
+                $('.delay_probability_time').html(data.flight_time)
+                $('.calculate_block').slideDown();
+                $('.btn').css({borderRadius: '50% 50% 0 0'})
+            },
+            error: function(jqXHR, textStatus, err) {
+                //show error message
+                //alert('text status '+textStatus+', err '+err)
+            }
+        })).done(function(){
+            // console.log('g');
+
+        });
+
     });
 
     //change colors
