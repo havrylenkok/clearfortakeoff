@@ -29,7 +29,10 @@ exports.home = function(req, res, next) {
 
                         var resD = resH + 'h ' + resM + ' m';
 
-                        res.send({flight_percent:Math.round(resultPercent) + '%',flight_time:resD});
+                        res.send({flight_percent:Math.round(resultPercent) + '%',flight_time:resD,
+                                airport_name_first_airport:req.body.inputVal2,
+                                airport_name_third_airport:req.body.inputVal1,
+                        });
 
                     }
                 })

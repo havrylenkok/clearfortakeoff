@@ -91,6 +91,8 @@ $(document).ready(function () {
                 console.log(data);
                 $('.delay_probability_percent').html(data.flight_percent + '<div class="delay_probability_time"></div>')
                 $('.delay_probability_time').html(data.flight_time)
+                $('.airport_name.first_airport').html(data.airport_name_first_airport)
+                $('.airport_name.third_airport').html(data.airport_name_third_airport)
                 $('.calculate_block').slideDown();
                 $('.btn').css({borderRadius: '50% 50% 0 0'})
             },
