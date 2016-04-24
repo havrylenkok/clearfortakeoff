@@ -22,6 +22,8 @@ exports.main = function (req, res, next) {
 
     db.getTop({limit:3}, showDataFromDb);
 
+    db.getCources({iata:"BMK"}, showDataFromDb);
+
     db.getNearestAirport({userLat:48.49, userLng:32.21, limit:5}, function(err, data) {
         if(err) {
             console.log('Database error : ' + err);
