@@ -47,7 +47,7 @@ var countProbability = function (jsMetar, type, ils, course)
 
             // wind course. Compare to route course
             if (jsMetar.wind != null) {
-                var myCourse = 180;
+                var myCourse = 90;
                 var dif = course[0] * 10;
                 console.log("DIF: " + dif);
 
@@ -64,6 +64,7 @@ var countProbability = function (jsMetar, type, ils, course)
                             console.log(jsMetar.wind.course);
                             console.log(dif);
                             if (dif > 180) dif -= 180;
+                            if (dif > 90) dif = 180 - dif;
                             if (myCourse > dif) myCourse = dif;
                         }
                     }
