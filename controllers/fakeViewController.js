@@ -1,6 +1,9 @@
 /**
+ * Created by robben1 on 4/24/16.
+ */
+/**
  * Method: GET
- * URI: /test
+ * URI: /fakeView
  * */
 var metar = require('./../service/metarParser');
 var prob = require('./../service/metarToDelay');
@@ -8,8 +11,27 @@ var metarApi = require('./../service/metarApi');
 var parseFlight = require('./../service/parseFlight');
 var city = require('./../service/parseCityInfo');
 
+var results = {};
+
 var callbackCity = function (res) {
-    console.log(res);
+    // console.log(res);
+    addToResults('city', res);
+};
+
+var addToResults = function (name, res) {
+    results[name] = res;
+    console.log(results[name]);
+    renderPage();
+};
+
+var renderPage = function () {
+    if(results.length > 1) {
+        renderer.render('fakeView', {
+            title: 'blah',
+            fake: results['city'],
+            metar: results['metar']
+        });
+    }     
 };
 
 exports.main = function(req, res, next) {
@@ -23,27 +45,13 @@ exports.main = function(req, res, next) {
     //
 
 
-    var fakeView = metarApi('UKKK', 0, 2, 0, 'UUDD', 10, 2, 0, null, null);
+    metarApi('UKKK', 0, 2, 0, 'UUDD', 10, 2, 0, callbackMetar);
+    city('Kiev', callbackCity);
     var jfkMetarPure = metar.parse('KJFK', 0);
     //console.log("KJFK PURE METAR");
     //console.log(jfkMetarPure);
     parseFlight();
 
     // console.log("TYPE OF: " + callbackCity);
-    city('Kiev', callbackCity);
-
-
-    res.render('test', {
-        title: 'Clear for take off',
-        metar: metarobj,
-        pureMetar: metar.pureMetar('UKKK'),
-        prob: probability,
-        host: process.env.OPENSHIFT_MYSQL_DB_HOST,
-        port: process.env.OPENSHIFT_MYSQL_DB_PORT,
-        name: process.env.OPENSHIFT_MYSQL_DB_USERNAME,
-        pass: process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
-        url: process.env.OPENSHIFT_MYSQL_DB_URL,
-        fake: fakeView,
-        jfkMetarPure: jfkMetarPure
-    });
+    // city('Kiev', callbackCity);
 };
