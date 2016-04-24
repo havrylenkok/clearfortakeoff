@@ -83,21 +83,26 @@ $(document).ready(function () {
        else{
             inputVal1 = $('.flightNumber_input').val();
         }
-        $.ajax({
+        $.when( $.ajax({
             type: "POST",
-            url: "/test",
-            timeout: 2000,
+            url: "/",
             data: { inputVal1: inputVal1, inputVal2:inputVal2},
             success: function(data) {
-                alert('Success!')
+                console.log(data);
+                $('.delay_probability_percent').html(data.flight_percent + '<div class="delay_probability_time"></div>')
+                $('.delay_probability_time').html(data.flight_time)
+                $('.calculate_block').slideDown();
+                $('.btn').css({borderRadius: '50% 50% 0 0'})
             },
             error: function(jqXHR, textStatus, err) {
                 //show error message
-                alert('text status '+textStatus+', err '+err)
+                //alert('text status '+textStatus+', err '+err)
             }
+        })).done(function(){
+            // console.log('g');
+
         });
-        $('.calculate_block').slideDown();
-        $('.btn').css({borderRadius: '50% 50% 0 0'})
+
     });
 
     //change colors

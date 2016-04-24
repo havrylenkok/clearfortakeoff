@@ -19,8 +19,6 @@ var $ = require('jquery')(window);
 
 
 exports.main = function(req, res, next) {
-    
-
 
     var showDataFromDb = function(err, data) {
         if(err) {
@@ -50,7 +48,13 @@ exports.main = function(req, res, next) {
 
                     res.end("OK");
                 }
+                else {
+                    console.log("Error 2 " + err2);
+                }
             })
+        }
+        else {
+            console.log("Error 1 " + err1);
         }
     });
 };
