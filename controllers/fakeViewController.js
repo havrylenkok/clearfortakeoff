@@ -40,7 +40,14 @@ exports.main = function(req, res, next) {
         if(!err1) {
             db.getInfo('LHR', function (err2, res2) {
                 if(!err2){
-                    console.log("res1 = " + res1[0].icao + "\n res2 = " + res2[0].icao);
+                  var res3 = metarApi(res1[0].icao, 0, res1[0].ils, res1[0].cource,
+                                      res2[0].icao, 10, res2[0].ils, res2[0].cource);
+                    console.log(res3);
+
+                    db.updateTop({prob:res3.sourceProb, delay:res3.sourceTime, icao:res1[0].icao});
+                    db.updateTop({prob:res3.destProb, delay:res3.destTime, icao:res2[0].icao});
+
+
                     res.end("OK");
                 }
             })
