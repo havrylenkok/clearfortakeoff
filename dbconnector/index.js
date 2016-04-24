@@ -56,11 +56,10 @@ var getList = function(callback) {
             console.log("Successfully selected");
             callback(null, rows);
         }
-    })
+    });
 };
 
 var updateTop = function(data) {
-
 
     connection.query('UPDATE airport SET prob = (prob + ?)/(counter+1), delay = (delay + ?)/(counter+1), ' +
                                   'counter = counter + 1 WHERE icao = ?;', [data.prob, data.delay, data.icao],
@@ -78,7 +77,8 @@ var updateTop = function(data) {
 var getTop = function(data, callback) {
 
     data.limit = data.limit || 40;
-
+    
+    connection.connect();
     connection.query('SELECT icao, iata, name, town, delay, prob FROM airport WHERE counter > 0 ORDER BY prob LIMIT ?;',
          [data.limit],
          function(err, rows){
@@ -90,6 +90,7 @@ var getTop = function(data, callback) {
                 console.log("Success selected top");
                 callback(null, rows);
             } 
+            connection.end(); 
     });
 };
 
@@ -113,8 +114,8 @@ var getNearestAirport = function (data, callback) {
 
 var getInfo = function(data, callback) {
 
-    connection.query('SELECT a.ils, a.icao, r.cource FROM runways r INNER JOIN ' +
-                     '(SELECT ils, id, icao FROM airport WHERE iata = ?) a on r.airport_id = a.id;',[data.iata],
+    connection.query({sql:'SELECT a.ils, a.icao, r.cource FROM runways r INNER JOIN ' +
+                        '(SELECT id, ils, icao FROM airport WHERE iata = ?) a on r.airport_id = a.id;',values:[data]},
     function (err, rows) {
         if(err) {
             console.log("Error to select " + err);

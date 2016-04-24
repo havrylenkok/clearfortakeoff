@@ -8,7 +8,7 @@ var window = document.defaultView;
 var $ = require('jquery')(window);
 
 module.exports = function () {
-
+    var obj = [];
     var url = "https://transit.navitime.com/en/flight/schedule/result?depCity=&depAirport=JFK&arvCity=&arvAirport=LHR&date=2016-04-24T00%3A00%3A00"
 
     request(url, function (error, response, body) {
@@ -21,20 +21,27 @@ module.exports = function () {
             pos = t.indexOf('-', pos + 1);
         }
 
-        for (var i=0;i<count; i++){
+        for (var i = 0; i < count - 1; i++) {
             var no = $(body).find('.flight_info').eq(i).text();
-
-           $(body).find('.time_area').eq(i*2).text()
-          $(body).find('.time_area').eq(i*2+1).text()
+            var dep = $(body).find('.time_area').eq(i * 2).text();
+            var timeDep = dep.match(/\d\d:\d\d/)[0];
+            var arr = $(body).find('.time_area').eq(i * 2 + 1).text();
+            var timeArr = arr.match(/[\d]+:[\d]+/)[0];
+            var depDate =  dep.match(/[\d]+\/[\d]+\/[\d]+ /)[0];
+            if (new Date(depDate).getDate() == new Date().getDate()) {
+                obj.push({
+                    'flight_no': '' + no.match(/[A-Z]+-[\d]+/),
+                    'dep_time': timeDep,
+                    'dep_date': dep.match(/[\d]+\/[\d]+\/[\d]+ /)[0],
+                    'arr_time': timeArr,
+                    'arr_date': arr.match(/[\d]+\/[\d]+\/[\d]+ [a-zA-Z]+/)[0]
+                })
+            }
         }
+        console.log('obj', obj.length);
 
-        //console.log($(body).find('.flight_info .flight_no:first').text())
-        //console.log($(body).find('.date:first').text())
-        //console.log($(body).find('.time.dep:first').text())
-        //console.log($(body).find('.date').eq(1).text())
-        //console.log($(body).find('.time.arv:first').text())
-        //console.log($(body).find('.flight_time:first').text())
         //console.log($(body).find('.airport_name.dep:first').text().substring(0, 3));
         //console.log($(body).find('.airport_name.arv:first').text().substring(0, 3))
     });
+    return obj
 }
