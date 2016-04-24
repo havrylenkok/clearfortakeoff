@@ -23,7 +23,7 @@ exports.main = function(req, res, next) {
     //
 
 
-    var fakeView = metarApi('UKKK', 0, 2, 0, 'UUDD', 10, 2, 0, null, null);
+    var fakeView = metarApi('UKKK', 0, 2, 0, 'UUDD', 10, 2, 0);
     var jfkMetarPure = metar.parse('KJFK', 0);
     //console.log("KJFK PURE METAR");
     //console.log(jfkMetarPure);
