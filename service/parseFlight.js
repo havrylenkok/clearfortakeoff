@@ -19,6 +19,7 @@ module.exports = function (airport1, airport2, date, callback) {
 
     request(url, function (err, contents, body) {
 
+        console.log("PARSE FLIGHT BODY: " + body);
 
         // var body = contents.getBody('utf8');
         var t = $(body).find('.flight_info .flight_no').text();
@@ -57,6 +58,8 @@ module.exports = function (airport1, airport2, date, callback) {
         //console.log($(body).find('.airport_name.dep:first').text().substring(0, 3));
         //console.log($(body).find('.airport_name.arv:first').text().substring(0, 3))
 
+        console.log(obj);
+        console.log(obj[0]);
         callback(obj);
     });
 };
