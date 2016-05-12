@@ -22,8 +22,6 @@ exports.home = function (req, res, next) {
                                 parseFlight(req.body.inputVal2, req.body.inputVal1, new Date().toJSON().slice(0, 10), function (fInfo) {
 
                                     console.log("fInfo " + fInfo[0].flight_no);
-                                    console.log(fInfo);
-                                    console.log(fInfo[0]);
 
                                     db.updateTop({prob: res3.sourceProb, delay: res3.sourceTime, icao: res1[0].icao});
                                     db.updateTop({prob: res3.destProb, delay: res3.destTime, icao: res2[0].icao});
