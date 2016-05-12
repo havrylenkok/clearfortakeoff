@@ -7,10 +7,12 @@
  * @param jsMetar metar object
  * @param type 0 - departure, 1 - arrival
  * @param ils ILS category of airport
+ * @param course
  */
 var countProbability = function (jsMetar, type, ils, course)
 // , baseDelay)
     {
+        console.log("COURSE: " + course);
         // console.log("METAR: ")
         // console.log(jsMetar);
         if (jsMetar == null) {
@@ -47,25 +49,29 @@ var countProbability = function (jsMetar, type, ils, course)
 
             // wind course. Compare to route course
             if (jsMetar.wind != null) {
-                var myCourse;
-                var dif = course[0] * 10;
-                // console.log("DIF: " + dif);
+                if(course != null) {
+                    var myCourse;
+                    var dif = course[0] * 10;
 
-                if(jsMetar.wind.course != null) {
-                    if(jsMetar.wind.course.match(/VRB/i)) {
-                        // console.log("VRB COURSE");
-                        // console.log(jsMetar.wind.course);
-                        dif = 1;
-                    } else {
-                        for (var i = 0; i < course.length; i++) {
-                            dif = Math.abs((course[i] * 10) - jsMetar.wind.course);
-                            // console.log("LOCAL DIF: ");
-                            // console.log(course[i] * 10);
+
+                    // console.log("DIF: " + dif);
+
+                    if (jsMetar.wind.course != null) {
+                        if (jsMetar.wind.course.match(/VRB/i)) {
+                            // console.log("VRB COURSE");
                             // console.log(jsMetar.wind.course);
-                            // console.log(dif);
-                            if (dif < 180) myCourse = course[i];
+                            dif = 1;
+                        } else {
+                            for (var i = 0; i < course.length; i++) {
+                                dif = Math.abs((course[i] * 10) - jsMetar.wind.course);
+                                // console.log("LOCAL DIF: ");
+                                // console.log(course[i] * 10);
+                                // console.log(jsMetar.wind.course);
+                                // console.log(dif);
+                                if (dif < 180) myCourse = course[i];
+                            }
+                            if (dif > 180) dif -= 180;
                         }
-                        if (dif > 180) dif -= 180;
                     }
                 }
 

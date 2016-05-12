@@ -1,14 +1,14 @@
 /**
  * Created by robben1 on 4/24/16.
  */
-var request = require("sync-request");
+var request = require("request");
 var jsdom = require('jsdom').jsdom;
 var document = jsdom('<html></html>', {});
 var window = document.defaultView;
 var $ = require('jquery')(window);
 
-module.exports = function (airport1, airport2, date) {
-    if(date == null || date == undefined) date = '2016-04-24T00%3A00%3A00';
+module.exports = function (airport1, airport2, date, callback) {
+    if(date == null || date == undefined) date = '2016-05-12T00%3A00%3A00';
     if(date == null || date == undefined) airport1 = 'LHR';
     if(date == null || date == undefined) airport2 = 'JFK';
     var obj = [];
@@ -17,17 +17,19 @@ module.exports = function (airport1, airport2, date) {
     var url3 = '&date=';
     var url = url1 + airport1 + url2 + airport2 + url3 + date + 'T00%3A00%3A00';
 
-    var contents = request('GET', url);
-        var body = contents.getBody('utf8');
+    request(url, function (err, contents, body) {
+
+
+        // var body = contents.getBody('utf8');
         var t = $(body).find('.flight_info .flight_no').text();
         var count = 0;
         var pos = 0;
 
-       /* while (pos !== -1) {
-            count++;
-            pos = t.indexOf('-', pos + 1);
-        }*/
-        
+        /* while (pos !== -1) {
+         count++;
+         pos = t.indexOf('-', pos + 1);
+         }*/
+
         count = 2;
 
         for (var i = 0; i < count - 1; i++) {
@@ -36,7 +38,7 @@ module.exports = function (airport1, airport2, date) {
             var timeDep = dep.match(/\d\d:\d\d/)[0];
             var arr = $(body).find('.time_area').eq(i * 2 + 1).text();
             var timeArr = arr.match(/[\d]+:[\d]+/)[0];
-            var depDate =  dep.match(/[\d]+\/[\d]+\/[\d]+ /)[0];
+            var depDate = dep.match(/[\d]+\/[\d]+\/[\d]+ /)[0];
             // console.log($(body).find('.airport_name.arv').text())
             if (new Date(depDate).getDate() == new Date().getDate()) {
                 obj.push({
@@ -54,6 +56,7 @@ module.exports = function (airport1, airport2, date) {
 
         //console.log($(body).find('.airport_name.dep:first').text().substring(0, 3));
         //console.log($(body).find('.airport_name.arv:first').text().substring(0, 3))
-    
-    return obj;
-}
+
+        callback(obj);
+    });
+};

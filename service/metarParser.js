@@ -2,28 +2,28 @@
  * Created by robben1 on 4/14/16.
  */
 
-var request = require('sync-request');
+var request = require('request');
 var jsdom = require('jsdom').jsdom;
 var document = jsdom('<html></html>', {});
 var window = document.defaultView;
 var $ = require('jquery')(window);
 var metarjs = require('metar-js');
 
-var parseMetar = function (airport, hoursFromNow) {
+var parseMetar = function (airport, hoursFromNow, callback) {
 
     if(!((''+airport).match(/[a-zA-Z]+/))) return null;
 
     // console.log("AIRPORT: " + airport + " HOURS: " + hoursFromNow);
     // console.log(humanifyMetar(getMetar(airport))[0]);
-    var data = humanifyMetar(getMetar(airport, hoursFromNow));
+    getMetar(airport, hoursFromNow, humanifyMetar, callback);
     // console.log("MY DATA: ");
     // console.log(data);
-    if (data.result == null) {
-        return null;
-    }
-    else {
-        return data;
-    }
+    // if (data.result == null) {
+    //     return null;
+    // }
+    // else {
+    //     callback(data);
+    // }
 
     // var result = "";
 
@@ -32,39 +32,50 @@ var parseMetar = function (airport, hoursFromNow) {
     // return result;
 };
 
-var getMetar = function (airport, hoursFromNow) {
+var getMetar = function (airport, hoursFromNow, callback, finalCallback) {
     // console.log(airport);
     var result = true;
 
     var adress1 = "http://www.aviationweather.gov/adds/metars/?station_ids=";
     var adress2 = "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit";
 
-    var contents = request('GET', adress1 + airport + adress2);
-    // console.log("CONTENTS getMetar: ");
-    // console.log(contents);
-    var text = contents.getBody('utf8');
-    // console.log("TEXT: ");
-    // console.log(text);
-
-    var html = $.parseHTML(text);
-    // console.log("HTML: ");
-    // console.log(html);
-
-    var meteoData = $(html).find("font");
-    // console.log("METEODATA: ");
-    // console.log(meteoData);
-    var metar = $(meteoData.get(0)).text();
-    var taf = $(meteoData.get(1)).text();
-    // console.log("CHECKED METAR: " + metar);
-    // console.log("CHECKED TAF :" + taf);
-    if (metar == null || metar == undefined) result = false;
+    request(adress1 + airport + adress2, function (err, contents, body) {
 
 
-    return {edge: null, metar: metar, taf: taf, airport: airport, hours: hoursFromNow, result: result};
+        // console.log("CONTENTS getMetar: ");
+        // console.log(contents);
+        // var text = contents.getBody('utf8'); // sync request
+        var text = body;
+        // console.log("TEXT: ");
+        // console.log(text);
 
+        var html = $.parseHTML(text);
+        // console.log("HTML: ");
+        // console.log(html);
+
+        var meteoData = $(html).find("font");
+        // console.log("METEODATA: ");
+        // console.log(meteoData);
+        var metar = $(meteoData.get(0)).text();
+        var taf = $(meteoData.get(1)).text();
+        // console.log("CHECKED METAR: " + metar);
+        // console.log("CHECKED TAF :" + taf);
+        if (metar == null || metar == undefined) result = false;
+
+
+        callback({
+            edge: null,
+            metar: metar,
+            taf: taf,
+            airport: airport,
+            hours: hoursFromNow,
+            result: result
+        }, finalCallback);
+    });
 };
 
-var humanifyMetar = function (data) {
+var humanifyMetar = function (data, callback) {
+    console.log("Called humanufyMetar");
         if (data.result == false) return null;
 
         if (data.metar.match(/SNOCLO/)) return {edge: 'bad', result: metarToJs(data.metar)};
@@ -151,10 +162,11 @@ var humanifyMetar = function (data) {
 // console.log(metarToJs('METAR KBLV 011657Z AUTO 25015G30KT 210V290 3/8SM R32L/1000FT +FZRA BKN005'));
 // console.log("humanify result: " + result[j-1]);
 // console.log(result[j-1]);
-        return {
+    console.log("humanifyMetar end")
+        callback({
             edge: null,
             result: result[j - 1]
-        };
+        });
 
 
 // result[0] = metarToJs(data.metar);
