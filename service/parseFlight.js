@@ -11,7 +11,7 @@ module.exports = function (airport1, airport2, date, callback) {
     if(date == null || date == undefined) date = '2016-05-12T00%3A00%3A00';
     if(date == null || date == undefined) airport1 = 'LHR';
     if(date == null || date == undefined) airport2 = 'JFK';
-    var obj = [];
+
     var url1 = 'https://transit.navitime.com/en/flight/schedule/result?depCity=&depAirport=';
     var url2 = '&arvCity=&arvAirport=';
     var url3 = '&date=';
@@ -19,12 +19,13 @@ module.exports = function (airport1, airport2, date, callback) {
 
     request(url, function (err, contents, body) {
 
-        console.log("PARSE FLIGHT BODY: " + body);
+        // console.log("PARSE FLIGHT BODY: " + body);
 
         // var body = contents.getBody('utf8');
         var t = $(body).find('.flight_info .flight_no').text();
         var count = 0;
         var pos = 0;
+        var obj = [];
 
         /* while (pos !== -1) {
          count++;
@@ -52,6 +53,7 @@ module.exports = function (airport1, airport2, date, callback) {
                     'city_to': $(body).find('.airport_name.arv').text().match(/([a-zA-Z]+)[\s]([a-zA-Z]+)[\s]/)[0]
                 })
             }
+            console.log("ITERATION of obj: " + obj);
         }
         // console.log('obj', obj.length);
 
